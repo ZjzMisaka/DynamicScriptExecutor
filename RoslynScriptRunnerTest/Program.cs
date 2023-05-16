@@ -39,6 +39,6 @@ class Run
 ";
 object[] paramList = new object[1];
 paramList[0] = 30;
-RoslynScriptRunner.Runner.Run(codeHelloWorld);
+RoslynScriptRunner.ScriptRunner.Run(codeHelloWorld);
 RoslynScriptRunner.RunOption runOption = new RoslynScriptRunner.RunOption(paramList);
-RoslynScriptRunner.Runner.Run(codeDraw, runOption);
+RoslynScriptRunner.ScriptRunner.Run(codeDraw, runOption);

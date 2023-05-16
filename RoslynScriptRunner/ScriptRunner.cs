@@ -6,7 +6,7 @@ using static System.Net.Mime.MediaTypeNames;
 
 namespace RoslynScriptRunner
 {
-    public class Runner
+    public class ScriptRunner
     {
         public static void Run(string code, RunOption runOption = null)
         {

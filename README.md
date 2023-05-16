@@ -14,7 +14,7 @@ class Run
     }
 }
 ";
-RoslynScriptRunner.Runner.Run(codeHelloWorld);
+RoslynScriptRunner.ScriptRunner.Run(codeHelloWorld);
 ```
 #### Options
 **RoslynScriptRunner.RunOption**
@@ -29,5 +29,5 @@ InstanceObject instanceObject;
 **Useage**
 ``` csharp
 RoslynScriptRunner.RunOption runOption = new RoslynScriptRunner.RunOption(...);
-RoslynScriptRunner.Runner.Run(code, runOption);
+RoslynScriptRunner.ScriptRunner.Run(code, runOption);
 ```
