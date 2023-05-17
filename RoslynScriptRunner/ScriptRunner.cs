@@ -177,6 +177,10 @@ namespace RoslynScriptRunner
                 ms.Seek(0, SeekOrigin.Begin);
                 Assembly assembly = Assembly.Load(ms.ToArray());
                 Type type = assembly.GetType(runOption.ClassName);
+                if (type == null) 
+                {
+                    throw new Exception($"Class not found: {runOption.ClassName}");
+                }
                 object obj = Activator.CreateInstance(type);
                 return new InstanceObject(type, obj);
             }
