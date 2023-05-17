@@ -27,7 +27,7 @@ namespace RoslynScriptRunner
             MethodInfo methodInfo = instanceObject.Type.GetMethod(runOption.MethodName);
             if (methodInfo == null)
             {
-                throw new Exception("Method not found: Main");
+                throw new Exception($"Method not found: {runOption.MethodName}");
             }
             return methodInfo.Invoke(instanceObject.Instance, runOption.ParamList);
         }
