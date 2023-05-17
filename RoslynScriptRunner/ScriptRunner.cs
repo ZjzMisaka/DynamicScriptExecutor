@@ -32,7 +32,7 @@ namespace RoslynScriptRunner
             return methodInfo.Invoke(instanceObject.Instance, runOption.ParamList);
         }
 
-        private static InstanceObject GetInstanceObject(string code, RunOption runOption, List<string> needDelDll = null)
+        public static InstanceObject GetInstanceObject(string code, RunOption runOption, List<string> needDelDll = null)
         {
             List<string> dlls = new List<string>();
 
