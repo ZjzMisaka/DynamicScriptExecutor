@@ -1,6 +1,10 @@
 # RoslynScriptRunner
+<img src="https://www.nuget.org/Content/gallery/img/logo-header.svg?sanitize=true" height="30px">
+  
 Roslyn script runner
 
+### Download
+RoslynScriptRunner is available as [Nuget Package](https://www.nuget.org/packages/ZjzMisaka.RoslynScriptRunner/) now.
 ### Getting started
 **Hello World**
 ``` csharp
