@@ -8,7 +8,7 @@ namespace RoslynScriptRunner
 {
     public class ScriptRunner
     {
-        public static void Run(string code, RunOption runOption = null)
+        public static object Run(string code, RunOption runOption = null)
         {
             if (runOption == null) 
             {
@@ -29,7 +29,7 @@ namespace RoslynScriptRunner
             {
                 throw new Exception("Method not found: Main");
             }
-            methodInfo.Invoke(instanceObject.Instance, runOption.ParamList);
+            return methodInfo.Invoke(instanceObject.Instance, runOption.ParamList);
         }
 
         private static InstanceObject GetInstanceObject(string code, RunOption runOption, List<string> needDelDll = null)

@@ -13,7 +13,7 @@ using System;
 using System.Text;
 class Run
 {
-    public void Main(int mid)
+    public string Main(int mid)
     {
         for (int i = 0; true; ++i)
         {
@@ -25,6 +25,7 @@ class Run
                 break;
             }
         }
+        return ""codeDraw end"";
     }
     
     private void OutputLog(int x, int y,  int length)
@@ -41,4 +42,5 @@ object[] paramList = new object[1];
 paramList[0] = 30;
 RoslynScriptRunner.ScriptRunner.Run(codeHelloWorld);
 RoslynScriptRunner.RunOption runOption = new RoslynScriptRunner.RunOption(paramList);
-RoslynScriptRunner.ScriptRunner.Run(codeDraw, runOption);
+string codeDrawRes = (string)RoslynScriptRunner.ScriptRunner.Run(codeDraw, runOption);
+Console.WriteLine(codeDrawRes);
