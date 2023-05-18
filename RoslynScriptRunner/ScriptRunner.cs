@@ -27,7 +27,10 @@ namespace RoslynScriptRunner
             MethodInfo methodInfo = instanceObject.Type.GetMethod(runOption.MethodName);
             if (methodInfo == null)
             {
-                throw new Exception($"Method not found: {runOption.MethodName}");
+                Exception e = new Exception($"Method not found: {runOption.MethodName}");
+                e.Data.Add("Type", "MethodNotFound");
+                e.Data.Add("Value", runOption.MethodName);
+                throw e;
             }
             return methodInfo.Invoke(instanceObject.Instance, runOption.ParamList);
         }
@@ -96,7 +99,10 @@ namespace RoslynScriptRunner
             }
             if (breakError)
             {
-                throw new Exception(errorStr);
+                Exception e = new Exception(errorStr);
+                e.Data.Add("Type", "SyntaxError");
+                e.Data.Add("Value", errorStr);
+                throw e;
             }
 
             string assemblyName = Path.GetRandomFileName();
@@ -164,7 +170,10 @@ namespace RoslynScriptRunner
 
                 if (breakError)
                 {
-                    throw new Exception(errorStr);
+                    Exception e = new Exception(errorStr);
+                    e.Data.Add("Type", "Error");
+                    e.Data.Add("Value", errorStr);
+                    throw e;
                 }
 
                 if (errDll.Count > 0)
@@ -179,7 +188,10 @@ namespace RoslynScriptRunner
                 Type type = assembly.GetType(runOption.ClassName);
                 if (type == null) 
                 {
-                    throw new Exception($"Class not found: {runOption.ClassName}");
+                    Exception e = new Exception($"Class not found: {runOption.ClassName}");
+                    e.Data.Add("Type", "ClassNotFound");
+                    e.Data.Add("Value", runOption.ClassName);
+                    throw e;
                 }
                 object obj = Activator.CreateInstance(type);
                 return new InstanceObject(type, obj);
