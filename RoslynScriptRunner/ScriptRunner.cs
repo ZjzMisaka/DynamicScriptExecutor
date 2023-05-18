@@ -194,7 +194,7 @@ namespace RoslynScriptRunner
                     throw e;
                 }
                 object obj = Activator.CreateInstance(type);
-                return new InstanceObject(type, obj);
+                return new InstanceObject(type, obj, runOption);
             }
 
             return null;
