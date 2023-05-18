@@ -35,9 +35,29 @@ namespace RoslynScriptRunner
             return methodInfo.Invoke(instanceObject.Instance, runOption.ParamList);
         }
 
-        public static InstanceObject GetInstanceObject(string code, RunOption runOption, List<string> needDelDll = null)
+        public static object Run(RunOption runOption)
+        {
+            InstanceObject instanceObject = runOption.InstanceObject;
+            
+            MethodInfo methodInfo = instanceObject.Type.GetMethod(runOption.MethodName);
+            if (methodInfo == null)
+            {
+                Exception e = new Exception($"Method not found: {runOption.MethodName}");
+                e.Data.Add("Type", "MethodNotFound");
+                e.Data.Add("Value", runOption.MethodName);
+                throw e;
+            }
+            return methodInfo.Invoke(instanceObject.Instance, runOption.ParamList);
+        }
+
+        public static InstanceObject GetInstanceObject(string code, RunOption runOption = null, List<string> needDelDll = null)
         {
             List<string> dlls = new List<string>();
+
+            if (runOption == null)
+            {
+                runOption = new RunOption();
+            }
 
             // Dll文件夹中的dll
             if (runOption.ExtraDllFolderList != null) 

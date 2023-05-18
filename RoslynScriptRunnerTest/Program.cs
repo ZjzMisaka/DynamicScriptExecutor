@@ -1,4 +1,6 @@
-﻿string codeHelloWorld = @"
+﻿using RoslynScriptRunner;
+
+string codeHelloWorld = @"
 using System;
 class Run
 {
@@ -40,7 +42,11 @@ class Run
 ";
 object[] paramList = new object[1];
 paramList[0] = 30;
-RoslynScriptRunner.ScriptRunner.Run(codeHelloWorld);
-RoslynScriptRunner.RunOption runOption = new RoslynScriptRunner.RunOption(paramList);
-string codeDrawRes = (string)RoslynScriptRunner.ScriptRunner.Run(codeDraw, runOption);
+ScriptRunner.Run(codeHelloWorld);
+RunOption runOption = new RunOption(paramList);
+string codeDrawRes = (string)ScriptRunner.Run(codeDraw, runOption);
 Console.WriteLine(codeDrawRes);
+
+RunOption runOption1 = new RunOption();
+runOption1.InstanceObject = ScriptRunner.GetInstanceObject(codeHelloWorld);
+ScriptRunner.Run(runOption1);
