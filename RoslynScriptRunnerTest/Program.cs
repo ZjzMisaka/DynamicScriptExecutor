@@ -50,3 +50,26 @@ Console.WriteLine(codeDrawRes);
 RunOption runOption1 = new RunOption();
 runOption1.InstanceObject = ScriptRunner.GetInstanceObject(codeHelloWorld);
 ScriptRunner.Run(runOption1);
+
+
+
+string codeCostTime = @"
+using System;
+using System.Threading;
+class Run
+{
+    public int Main()
+    {
+        Console.WriteLine(""Start sleep"");
+        Thread.Sleep(3000);
+        Console.WriteLine(""Sleeped 3s"");
+        return 1024;
+    }
+}
+";
+Task<object> task = ScriptRunner.RunAsync(codeCostTime);
+Console.WriteLine("output after RunAsync");
+Thread.Sleep(1000);
+Console.WriteLine("output when sleeping");
+int result = (int)task.GetAwaiter().GetResult();
+Console.WriteLine("output after GetResult, result is: " + result);
