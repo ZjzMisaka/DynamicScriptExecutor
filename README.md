@@ -34,7 +34,7 @@ object Run(RunOption runOption)
 Task<object> RunAsync(RunOption runOption)
 ```
 ``` csharp
-InstanceObject GetInstanceObject(string code, RunOption runOption = null, List<string> needDelDll = null)
+InstanceObject GetInstanceObject(string code, RunOption runOption = null)
 ```
 #### Options
 **RoslynScriptRunner.RunOption**

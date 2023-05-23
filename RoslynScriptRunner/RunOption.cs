@@ -25,5 +25,10 @@
         public string MethodName { get => methodName; set => methodName = value; }
         public string ClassName { get => className; set => className = value; }
         public InstanceObject InstanceObject { get => instanceObject; set => instanceObject = value; }
+
+        public RunOption Copy()
+        { 
+            return new RunOption(this.paramList, this.extraDllFolderList, this.extraDllFileList, this.methodName, this.className, this.instanceObject);
+        }
     }
 }

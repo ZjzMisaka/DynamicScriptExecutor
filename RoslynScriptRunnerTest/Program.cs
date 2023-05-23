@@ -69,7 +69,7 @@ class Run
 ";
 Task<object> task = ScriptRunner.RunAsync(codeCostTime);
 Console.WriteLine("output after RunAsync");
-Thread.Sleep(1000);
+Thread.Sleep(1500);
 Console.WriteLine("output when sleeping");
 int result = (int)task.GetAwaiter().GetResult();
 Console.WriteLine("output after GetResult, result is: " + result);

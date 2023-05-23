@@ -8,29 +8,28 @@ namespace RoslynScriptRunner
     {
         public static object Run(string code, RunOption runOption = null)
         {
-            if (runOption == null) 
+            RunOption runOptionCopied;
+            if (runOption == null)
             {
-                runOption = new RunOption();
-            }
-            InstanceObject instanceObject;
-            if (runOption.InstanceObject != null)
-            {
-                instanceObject = runOption.InstanceObject;
+                runOptionCopied = new RunOption();
             }
             else
             {
-                instanceObject = GetInstanceObject(code, runOption);
+                runOptionCopied = runOption.Copy();
             }
-            
-            MethodInfo methodInfo = instanceObject.Type.GetMethod(runOption.MethodName);
-            if (methodInfo == null)
+            InstanceObject instanceObject;
+            if (runOptionCopied.InstanceObject != null)
             {
-                Exception e = new Exception($"Method not found: {runOption.MethodName}");
-                e.Data.Add("Type", "MethodNotFound");
-                e.Data.Add("Value", runOption.MethodName);
-                throw e;
+                instanceObject = runOptionCopied.InstanceObject;
             }
-            return methodInfo.Invoke(instanceObject.Instance, runOption.ParamList);
+            else
+            {
+                instanceObject = GetInstanceObject(code, runOptionCopied);
+            }
+
+            runOptionCopied.InstanceObject = instanceObject;
+
+            return Run(runOptionCopied);
         }
 
         public static async Task<object> RunAsync(string code, RunOption runOption = null)
@@ -41,7 +40,7 @@ namespace RoslynScriptRunner
         public static object Run(RunOption runOption)
         {
             InstanceObject instanceObject = runOption.InstanceObject;
-            
+
             MethodInfo methodInfo = instanceObject.Type.GetMethod(runOption.MethodName);
             if (methodInfo == null)
             {
@@ -58,7 +57,12 @@ namespace RoslynScriptRunner
             return await Task.Run(() => Run(runOption));
         }
 
-        public static InstanceObject GetInstanceObject(string code, RunOption runOption = null, List<string> needDelDll = null)
+        public static InstanceObject GetInstanceObject(string code, RunOption runOption = null)
+        {
+            return GetInstanceObject(code, runOption, null);
+        }
+
+        private static InstanceObject GetInstanceObject(string code, RunOption runOption = null, List<string> needDelDll = null)
         {
             List<string> dlls = new List<string>();
 
@@ -173,7 +177,7 @@ namespace RoslynScriptRunner
                 options: options);
 
 
-            List<string> errDll = new List<string>();
+            List<string> errDllList = new List<string>();
             MemoryStream ms = new MemoryStream();
             var result = compilation.Emit(ms);
             if (!result.Success)
@@ -187,7 +191,7 @@ namespace RoslynScriptRunner
                         string dll = diagnostic.GetMessage();
                         dll = dll.Substring(dll.IndexOf("'") + 1);
                         dll = dll.Substring(0, dll.IndexOf("'"));
-                        errDll.Add(Path.GetFileName(dll));
+                        errDllList.Add(Path.GetFileName(dll));
                     }
                     else
                     {
@@ -204,9 +208,9 @@ namespace RoslynScriptRunner
                     throw e;
                 }
 
-                if (errDll.Count > 0)
+                if (errDllList.Count > 0)
                 {
-                    return GetInstanceObject(code, runOption, errDll);
+                    return GetInstanceObject(code, runOption, errDllList);
                 }
             }
             else
