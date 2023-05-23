@@ -55,6 +55,11 @@ namespace RoslynScriptRunner
             return methodInfo.Invoke(instanceObject.Instance, runOption.ParamList);
         }
 
+        public static async Task<object> RunAsync(RunOption runOption)
+        {
+            return await Task.Run(() => Run(runOption));
+        }
+
         public static InstanceObject GetInstanceObject(string code, RunOption runOption = null, List<string> needDelDll = null)
         {
             List<string> dlls = new List<string>();
