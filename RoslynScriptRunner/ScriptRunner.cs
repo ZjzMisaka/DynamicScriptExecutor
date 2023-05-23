@@ -35,7 +35,7 @@ namespace RoslynScriptRunner
             return methodInfo.Invoke(instanceObject.Instance, runOption.ParamList);
         }
 
-        async public static Task<object> RunAsync(string code, RunOption runOption = null)
+        public static async Task<object> RunAsync(string code, RunOption runOption = null)
         {
             return await Task.Run(() => Run(code, runOption));
         }
