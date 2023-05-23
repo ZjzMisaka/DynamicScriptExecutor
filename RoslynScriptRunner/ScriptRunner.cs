@@ -1,8 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using System.Dynamic;
 using System.Reflection;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace RoslynScriptRunner
 {
