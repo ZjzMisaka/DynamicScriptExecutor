@@ -20,6 +20,22 @@ class Run
 ";
 RoslynScriptRunner.ScriptRunner.Run(codeHelloWorld);
 ```
+#### API
+``` csharp
+object Run(string code, RunOption runOption = null)
+```
+``` csharp
+Task<object> RunAsync(string code, RunOption runOption = null)
+```
+``` csharp
+object Run(RunOption runOption)
+```
+``` csharp
+Task<object> RunAsync(RunOption runOption)
+```
+``` csharp
+InstanceObject GetInstanceObject(string code, RunOption runOption = null, List<string> needDelDll = null)
+```
 #### Options
 **RoslynScriptRunner.RunOption**
 ``` csharp
