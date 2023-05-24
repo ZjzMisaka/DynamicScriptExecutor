@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.VisualBasic;
 using System.Reflection;
 
 namespace RoslynScriptRunner
@@ -140,7 +141,16 @@ namespace RoslynScriptRunner
             int index = 0;
             foreach (string code in codeList)
             {
-                SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code);
+                SyntaxTree syntaxTree;
+                if (runOption.ScriptLanguage == ScriptLanguage.VisualBasic)
+                {
+                    syntaxTree = VisualBasicSyntaxTree.ParseText(code);
+                }
+                else
+                {
+                    syntaxTree = CSharpSyntaxTree.ParseText(code);
+                }
+                
                 syntaxTreeArray[index] = syntaxTree;
 
                 IEnumerable<Diagnostic> diagnostics = syntaxTree.GetDiagnostics();
@@ -188,18 +198,33 @@ namespace RoslynScriptRunner
                 }
             }
 
-            var options = new CSharpCompilationOptions(
-                OutputKind.DynamicallyLinkedLibrary,
-                platform: Platform.AnyCpu
-                //languageVersion: LanguageVersion.CSharp10,
-                //runtimeMetadataVersion: "6.0"
+            Compilation compilation;
+            if (runOption.ScriptLanguage == ScriptLanguage.VisualBasic)
+            {
+                VisualBasicCompilationOptions options = new VisualBasicCompilationOptions(
+                    OutputKind.DynamicallyLinkedLibrary,
+                    platform: Platform.AnyCpu
                 );
-            CSharpCompilation compilation = CSharpCompilation.Create(
-                assemblyName,
-                syntaxTrees: syntaxTreeArray,
-                references: references,
-                options: options);
-
+                compilation = VisualBasicCompilation.Create(
+                    assemblyName,
+                    syntaxTrees: syntaxTreeArray,
+                    references: references,
+                    options: options
+                );
+            }
+            else
+            {
+                CSharpCompilationOptions options = new CSharpCompilationOptions(
+                    OutputKind.DynamicallyLinkedLibrary,
+                    platform: Platform.AnyCpu
+                );
+                compilation = CSharpCompilation.Create(
+                    assemblyName,
+                    syntaxTrees: syntaxTreeArray,
+                    references: references,
+                    options: options
+                );
+            }
 
             List<string> errDllList = new List<string>();
             MemoryStream ms = new MemoryStream();
@@ -210,7 +235,7 @@ namespace RoslynScriptRunner
 
                 foreach (Diagnostic diagnostic in result.Diagnostics)
                 {
-                    if (diagnostic.Id == "CS0009")
+                    if (diagnostic.Id == "CS0009" || diagnostic.Id == "BC31519")
                     {
                         string dll = diagnostic.GetMessage();
                         dll = dll.Substring(dll.IndexOf("'") + 1);

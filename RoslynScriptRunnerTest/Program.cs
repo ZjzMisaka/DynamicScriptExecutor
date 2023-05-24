@@ -117,3 +117,17 @@ ScriptRunner.Run(new string[] { codeMain, codeExtra });
 RunOption runOptionMainExtra = new RunOption();
 runOptionMainExtra.InstanceObject = ScriptRunner.GetInstanceObject(new List<string> { codeMain, codeExtra });
 ScriptRunner.Run(runOptionMainExtra);
+
+/**
+ * VB.NET HelloWorld test
+ */
+string codeHelloWorldVB = @"
+Imports System
+Public Class Run
+    Public Sub Main()
+        Console.WriteLine(""Hello World VB.NET"")
+    End Sub
+End Class
+";
+RunOption runOptionVB = new RunOption() { ScriptLanguage = ScriptLanguage.VisualBasic };
+ScriptRunner.Run(codeHelloWorldVB, runOptionVB);
