@@ -5,6 +5,7 @@ RoslynScriptRunner is a versatile C#/VB.NET script execution library based on th
 
 ### Download
 RoslynScriptRunner is available as [Nuget Package](https://www.nuget.org/packages/ZjzMisaka.RoslynScriptRunner/) now.
+
 ### Getting started
 **Hello World**
 ``` csharp
@@ -20,6 +21,7 @@ class Run
 ";
 RoslynScriptRunner.ScriptRunner.Run(codeHelloWorld);
 ```
+
 #### API
 ``` csharp
 object Run(string code, RunOption runOption = null)
@@ -45,8 +47,9 @@ InstanceObject GetInstanceObject(string code, RunOption runOption = null)
 ``` csharp
 InstanceObject GetInstanceObject(ICollection<string> codeList, RunOption runOption = null)
 ```
+
 #### Options
-**RoslynScriptRunner.RunOption**
+**RunOption**
 ``` csharp
 object[] paramList;
 ICollection<string> extraDllFolderList;
@@ -54,7 +57,12 @@ ICollection<string> extraDllFileList;
 string methodName;
 string className;
 InstanceObject instanceObject;
+ScriptLanguage scriptLanguage;
 ```
+**ScriptLanguage**
+- CSharp
+- VisualBasic
+
 **Useage**
 ``` csharp
 RoslynScriptRunner.RunOption runOption = new RoslynScriptRunner.RunOption(...);
