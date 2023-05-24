@@ -8,15 +8,15 @@ namespace RoslynScriptRunner
     {
         public static object Run(string code, RunOption runOption = null)
         {
-            return Run(new List<string>() { code }, runOption);
+            return Run(new string[] { code }, runOption);
         }
 
         public static async Task<object> RunAsync(string code, RunOption runOption = null)
         {
-            return await Task.Run(() => Run(new List<string>() { code }, runOption));
+            return await Task.Run(() => Run(new string[] { code }, runOption));
         }
 
-        public static object Run(List<string> codeList, RunOption runOption = null)
+        public static object Run(ICollection<string> codeList, RunOption runOption = null)
         {
             RunOption runOptionCopied;
             if (runOption == null)
@@ -43,7 +43,7 @@ namespace RoslynScriptRunner
         }
 
 
-        public static async Task<object> RunAsync(List<string> codeList, RunOption runOption = null)
+        public static async Task<object> RunAsync(ICollection<string> codeList, RunOption runOption = null)
         {
             return await Task.Run(() => Run(codeList, runOption));
         }
@@ -70,15 +70,15 @@ namespace RoslynScriptRunner
 
         public static InstanceObject GetInstanceObject(string code, RunOption runOption = null)
         {
-            return GetInstanceObject(new List<string>() { code }, runOption, null);
+            return GetInstanceObject(new string[] { code }, runOption, null);
         }
 
-        public static InstanceObject GetInstanceObject(List<string> codeList, RunOption runOption = null)
+        public static InstanceObject GetInstanceObject(ICollection<string> codeList, RunOption runOption = null)
         {
             return GetInstanceObject(codeList, runOption, null);
         }
 
-        private static InstanceObject GetInstanceObject(List<string> codeList, RunOption runOption = null, List<string> needDelDll = null)
+        private static InstanceObject GetInstanceObject(ICollection<string> codeList, RunOption runOption = null, List<string> needDelDll = null)
         {
             List<string> dlls = new List<string>();
 
@@ -137,10 +137,11 @@ namespace RoslynScriptRunner
             string errorStr = "";
             bool breakError = false;
             SyntaxTree[] syntaxTreeArray = new SyntaxTree[codeList.Count];
-            for (int i = 0; i < codeList.Count; ++i)
+            int index = 0;
+            foreach (string code in codeList)
             {
-                SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(codeList[i]);
-                syntaxTreeArray[i] = syntaxTree;
+                SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code);
+                syntaxTreeArray[index] = syntaxTree;
 
                 IEnumerable<Diagnostic> diagnostics = syntaxTree.GetDiagnostics();
 
@@ -156,6 +157,8 @@ namespace RoslynScriptRunner
                     e.Data.Add("Value", errorStr);
                     throw e;
                 }
+
+                ++index;
             }
 
             string assemblyName = Path.GetRandomFileName();

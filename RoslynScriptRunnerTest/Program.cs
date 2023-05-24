@@ -109,7 +109,7 @@ public class ExtraClass
     }
 }
 ";
-ScriptRunner.Run(new List<string> { codeMain, codeExtra });
+ScriptRunner.Run(new string[] { codeMain, codeExtra });
 
 /**
  * Dependency + InstanceObject test
