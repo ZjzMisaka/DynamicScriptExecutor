@@ -8,6 +8,11 @@ namespace RoslynScriptRunner
     {
         public static object Run(string code, RunOption runOption = null)
         {
+            return Run(new List<string>() { code }, runOption);
+        }
+
+        public static object Run(List<string> codeList, RunOption runOption = null)
+        {
             RunOption runOptionCopied;
             if (runOption == null)
             {
@@ -24,7 +29,7 @@ namespace RoslynScriptRunner
             }
             else
             {
-                instanceObject = GetInstanceObject(code, runOptionCopied);
+                instanceObject = GetInstanceObject(codeList, runOptionCopied);
             }
 
             runOptionCopied.InstanceObject = instanceObject;
@@ -34,7 +39,12 @@ namespace RoslynScriptRunner
 
         public static async Task<object> RunAsync(string code, RunOption runOption = null)
         {
-            return await Task.Run(() => Run(code, runOption));
+            return await Task.Run(() => Run(new List<string>() { code }, runOption));
+        }
+
+        public static async Task<object> RunAsync(List<string> codeList, RunOption runOption = null)
+        {
+            return await Task.Run(() => Run(codeList, runOption));
         }
 
         public static object Run(RunOption runOption)
@@ -59,10 +69,15 @@ namespace RoslynScriptRunner
 
         public static InstanceObject GetInstanceObject(string code, RunOption runOption = null)
         {
-            return GetInstanceObject(code, runOption, null);
+            return GetInstanceObject(new List<string>() { code }, runOption, null);
         }
 
-        private static InstanceObject GetInstanceObject(string code, RunOption runOption = null, List<string> needDelDll = null)
+        public static InstanceObject GetInstanceObject(List<string> codeList, RunOption runOption = null)
+        {
+            return GetInstanceObject(codeList, runOption, null);
+        }
+
+        private static InstanceObject GetInstanceObject(List<string> codeList, RunOption runOption = null, List<string> needDelDll = null)
         {
             List<string> dlls = new List<string>();
 
@@ -118,23 +133,28 @@ namespace RoslynScriptRunner
                 }
             }
 
-            SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(code);
-
-            IEnumerable<Diagnostic> diagnostics = syntaxTree.GetDiagnostics();
-
-            bool breakError = false;
             string errorStr = "";
-            foreach (Diagnostic diagnostic in diagnostics)
+            bool breakError = false;
+            SyntaxTree[] syntaxTreeArray = new SyntaxTree[codeList.Count];
+            for (int i = 0; i < codeList.Count; ++i)
             {
-                breakError = true;
-                errorStr = $"{errorStr}\n    {diagnostic.ToString()}";
-            }
-            if (breakError)
-            {
-                Exception e = new Exception(errorStr);
-                e.Data.Add("Type", "SyntaxError");
-                e.Data.Add("Value", errorStr);
-                throw e;
+                SyntaxTree syntaxTree = CSharpSyntaxTree.ParseText(codeList[i]);
+                syntaxTreeArray[i] = syntaxTree;
+
+                IEnumerable<Diagnostic> diagnostics = syntaxTree.GetDiagnostics();
+
+                foreach (Diagnostic diagnostic in diagnostics)
+                {
+                    breakError = true;
+                    errorStr = $"{errorStr}\n    {diagnostic.ToString()}";
+                }
+                if (breakError)
+                {
+                    Exception e = new Exception(errorStr);
+                    e.Data.Add("Type", "SyntaxError");
+                    e.Data.Add("Value", errorStr);
+                    throw e;
+                }
             }
 
             string assemblyName = Path.GetRandomFileName();
@@ -172,7 +192,7 @@ namespace RoslynScriptRunner
                 );
             CSharpCompilation compilation = CSharpCompilation.Create(
                 assemblyName,
-                syntaxTrees: new[] { syntaxTree },
+                syntaxTrees: syntaxTreeArray,
                 references: references,
                 options: options);
 
@@ -210,7 +230,7 @@ namespace RoslynScriptRunner
 
                 if (errDllList.Count > 0)
                 {
-                    return GetInstanceObject(code, runOption, errDllList);
+                    return GetInstanceObject(codeList, runOption, errDllList);
                 }
             }
             else

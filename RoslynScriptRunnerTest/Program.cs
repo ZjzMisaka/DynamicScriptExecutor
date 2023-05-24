@@ -1,5 +1,8 @@
 ﻿using RoslynScriptRunner;
 
+/**
+ * HelloWorld test
+ */
 string codeHelloWorld = @"
 using System;
 class Run
@@ -10,6 +13,11 @@ class Run
     }
 }
 ";
+ScriptRunner.Run(codeHelloWorld);
+
+/**
+ * Param test
+ */
 string codeDraw = @"
 using System;
 using System.Text;
@@ -40,19 +48,22 @@ class Run
     }
 }
 ";
-object[] paramList = new object[1];
-paramList[0] = 30;
-ScriptRunner.Run(codeHelloWorld);
-RunOption runOption = new RunOption(paramList);
-string codeDrawRes = (string)ScriptRunner.Run(codeDraw, runOption);
+object[] paramList = new object[1] { 30 };
+string codeDrawRes = (string)ScriptRunner.Run(codeDraw, new RunOption(paramList));
 Console.WriteLine(codeDrawRes);
 
-RunOption runOption1 = new RunOption();
-runOption1.InstanceObject = ScriptRunner.GetInstanceObject(codeHelloWorld);
-ScriptRunner.Run(runOption1);
+
+/**
+ * InstanceObject test
+ */
+RunOption runOptionHelloWorld = new RunOption();
+runOptionHelloWorld.InstanceObject = ScriptRunner.GetInstanceObject(codeHelloWorld);
+ScriptRunner.Run(runOptionHelloWorld);
 
 
-
+/**
+ * Async test
+ */
 string codeCostTime = @"
 using System;
 using System.Threading;
@@ -73,3 +84,36 @@ Thread.Sleep(1500);
 Console.WriteLine("output when sleeping");
 int result = (int)task.GetAwaiter().GetResult();
 Console.WriteLine("output after GetResult, result is: " + result);
+
+/**
+ * Dependency test
+ */
+string codeMain = @"
+using System;
+class Run
+{
+    public void Main()
+    {
+        Console.WriteLine(""Hello World In Main"");
+        ExtraClass.ExtraOutput();
+    }
+}
+";
+string codeExtra = @"
+using System;
+public class ExtraClass
+{
+    public static void ExtraOutput()
+    {
+        Console.WriteLine(""Hello World In Extra"");
+    }
+}
+";
+ScriptRunner.Run(new List<string> { codeMain, codeExtra });
+
+/**
+ * Dependency + InstanceObject test
+ */
+RunOption runOptionMainExtra = new RunOption();
+runOptionMainExtra.InstanceObject = ScriptRunner.GetInstanceObject(new List<string> { codeMain, codeExtra });
+ScriptRunner.Run(runOptionMainExtra);
