@@ -28,6 +28,12 @@ object Run(string code, RunOption runOption = null)
 Task<object> RunAsync(string code, RunOption runOption = null)
 ```
 ``` csharp
+object Run(List<string> codeList, RunOption runOption = null)
+```
+``` csharp
+Task<object> RunAsync(List<string> codeList, RunOption runOption = null)
+```
+``` csharp
 object Run(RunOption runOption)
 ```
 ``` csharp
@@ -35,6 +41,9 @@ Task<object> RunAsync(RunOption runOption)
 ```
 ``` csharp
 InstanceObject GetInstanceObject(string code, RunOption runOption = null)
+```
+``` csharp
+InstanceObject GetInstanceObject(List<string> codeList, RunOption runOption = null)
 ```
 #### Options
 **RoslynScriptRunner.RunOption**

@@ -11,6 +11,11 @@ namespace RoslynScriptRunner
             return Run(new List<string>() { code }, runOption);
         }
 
+        public static async Task<object> RunAsync(string code, RunOption runOption = null)
+        {
+            return await Task.Run(() => Run(new List<string>() { code }, runOption));
+        }
+
         public static object Run(List<string> codeList, RunOption runOption = null)
         {
             RunOption runOptionCopied;
@@ -37,10 +42,6 @@ namespace RoslynScriptRunner
             return Run(runOptionCopied);
         }
 
-        public static async Task<object> RunAsync(string code, RunOption runOption = null)
-        {
-            return await Task.Run(() => Run(new List<string>() { code }, runOption));
-        }
 
         public static async Task<object> RunAsync(List<string> codeList, RunOption runOption = null)
         {
