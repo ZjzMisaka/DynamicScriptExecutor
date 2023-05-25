@@ -14,9 +14,9 @@
         private string className;
         private InstanceObject instanceObject;
         private ScriptLanguage scriptLanguage;
-        private bool isPrivate;
+        private bool nonPublic;
 
-        public RunOption(object[] paramList = null, ICollection<string> extraDllFolderList = null, ICollection<string> extraDllFileList = null, string methodName = "Main", string className = "Run", InstanceObject instanceObject = null, ScriptLanguage scriptLanguage = ScriptLanguage.CSharp, bool isPrivate = false)
+        public RunOption(object[] paramList = null, ICollection<string> extraDllFolderList = null, ICollection<string> extraDllFileList = null, string methodName = "Main", string className = "Run", InstanceObject instanceObject = null, ScriptLanguage scriptLanguage = ScriptLanguage.CSharp, bool nonPublic = false)
         {
             this.paramList = paramList;
             this.extraDllFolderList = extraDllFolderList;
@@ -25,7 +25,7 @@
             this.className = className;
             this.instanceObject = instanceObject;
             this.scriptLanguage = scriptLanguage;
-            this.isPrivate = isPrivate;
+            this.nonPublic = nonPublic;
         }
 
         public object[] ParamList { get => paramList; set => paramList = value; }
@@ -35,11 +35,11 @@
         public string ClassName { get => className; set => className = value; }
         public InstanceObject InstanceObject { get => instanceObject; set => instanceObject = value; }
         public ScriptLanguage ScriptLanguage { get => scriptLanguage; set => scriptLanguage = value; }
-        public bool IsPrivate { get => isPrivate; set => isPrivate = value; }
+        public bool NonPublic { get => nonPublic; set => nonPublic = value; }
 
         public RunOption Copy()
         { 
-            return new RunOption(this.paramList, this.extraDllFolderList, this.extraDllFileList, this.methodName, this.className, this.instanceObject, this.scriptLanguage, this.IsPrivate);
+            return new RunOption(this.paramList, this.extraDllFolderList, this.extraDllFileList, this.methodName, this.className, this.instanceObject, this.scriptLanguage, this.NonPublic);
         }
     }
 }

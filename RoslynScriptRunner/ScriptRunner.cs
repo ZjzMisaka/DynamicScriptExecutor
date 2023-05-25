@@ -53,7 +53,7 @@ namespace RoslynScriptRunner
         {
             InstanceObject instanceObject = runOption.InstanceObject;
 
-            if (!runOption.IsPrivate)
+            if (!runOption.NonPublic)
             {
                 MethodInfo methodInfo = instanceObject.Type.GetMethod(runOption.MethodName);
                 if (methodInfo == null)

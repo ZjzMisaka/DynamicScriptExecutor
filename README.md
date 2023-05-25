@@ -58,7 +58,7 @@ string methodName;
 string className;
 InstanceObject instanceObject;
 ScriptLanguage scriptLanguage;
-bool isPrivate;
+bool nonPublic;
 ```
 **ScriptLanguage**
 - CSharp

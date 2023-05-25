@@ -146,5 +146,5 @@ class Run
 }
 ";
 RunOption runOptionHelloWorldPrivate = new RunOption();
-runOptionHelloWorldPrivate.IsPrivate = true;
+runOptionHelloWorldPrivate.NonPublic = true;
 ScriptRunner.Run(codeHelloWorldPrivate, runOptionHelloWorldPrivate);
