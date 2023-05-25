@@ -101,7 +101,7 @@ class Run
 ";
 string codeExtra = @"
 using System;
-public class ExtraClass
+public static class ExtraClass
 {
     public static void ExtraOutput()
     {
@@ -131,3 +131,20 @@ End Class
 ";
 RunOption runOptionVB = new RunOption() { ScriptLanguage = ScriptLanguage.VisualBasic };
 ScriptRunner.Run(codeHelloWorldVB, runOptionVB);
+
+/**
+ * Private test
+ */
+string codeHelloWorldPrivate = @"
+using System;
+class Run
+{
+    private void Main()
+    {
+        Console.WriteLine(""Hello World Private"");
+    }
+}
+";
+RunOption runOptionHelloWorldPrivate = new RunOption();
+runOptionHelloWorldPrivate.IsPrivate = true;
+ScriptRunner.Run(codeHelloWorldPrivate, runOptionHelloWorldPrivate);
