@@ -59,6 +59,7 @@ string className;
 InstanceObject instanceObject;
 ScriptLanguage scriptLanguage;
 bool nonPublic;
+bool isStatic;
 ```
 **ScriptLanguage**
 - CSharp
