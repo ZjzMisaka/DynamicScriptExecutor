@@ -67,7 +67,18 @@ namespace RoslynScriptRunner
             }
             else
             {
-                MethodInfo methodInfo = instanceObject.Type.GetMethod(runOption.MethodName, BindingFlags.NonPublic | BindingFlags.Instance);
+                BindingFlags bindingFlags;
+
+                if (runOption.IsStatic)
+                {
+                    bindingFlags = BindingFlags.NonPublic | BindingFlags.Static;
+                }
+                else
+                {
+                    bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
+                }
+
+                MethodInfo methodInfo = instanceObject.Type.GetMethod(runOption.MethodName, bindingFlags);
                 if (methodInfo == null)
                 {
                     Exception e = new Exception($"Method not found: {runOption.MethodName}");
@@ -75,7 +86,7 @@ namespace RoslynScriptRunner
                     e.Data.Add("Value", runOption.MethodName);
                     throw e;
                 }
-                return methodInfo.Invoke(instanceObject.Instance, BindingFlags.NonPublic | BindingFlags.Instance, null, runOption.ParamList, null);
+                return methodInfo.Invoke(instanceObject.Instance, bindingFlags, null, runOption.ParamList, null);
             }
         }
 
@@ -289,7 +300,13 @@ namespace RoslynScriptRunner
                     e.Data.Add("Value", runOption.ClassName);
                     throw e;
                 }
-                object obj = Activator.CreateInstance(type);
+
+                object obj = null;
+                if (!runOption.IsStatic)
+                {
+                    obj = Activator.CreateInstance(type);
+                }
+                
                 return new InstanceObject(type, obj, runOption);
             }
 

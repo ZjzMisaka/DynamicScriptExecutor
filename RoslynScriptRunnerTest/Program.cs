@@ -148,3 +148,35 @@ class Run
 RunOption runOptionHelloWorldPrivate = new RunOption();
 runOptionHelloWorldPrivate.NonPublic = true;
 ScriptRunner.Run(codeHelloWorldPrivate, runOptionHelloWorldPrivate);
+
+/**
+ * Static test
+ */
+string codeStatic = @"
+using System;
+public static class Run
+{
+    public static void Main()
+    {
+        Console.WriteLine(""Hello World Static"");
+    }
+}
+";
+RunOption runOptionStatic = new RunOption() { IsStatic = true };
+ScriptRunner.Run(codeStatic, runOptionStatic);
+
+/**
+ * Private Static test
+ */
+string codePrivateStatic = @"
+using System;
+static class Run
+{
+    private static void Main()
+    {
+        Console.WriteLine(""Hello World Private & Static"");
+    }
+}
+";
+RunOption runOptionPrivateStatic = new RunOption() { IsStatic = true, NonPublic = true };
+ScriptRunner.Run(codePrivateStatic, runOptionPrivateStatic);
