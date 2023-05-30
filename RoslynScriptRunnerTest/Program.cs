@@ -156,14 +156,17 @@ string codeStatic = @"
 using System;
 public static class Run
 {
+    public static int count = 1;
     public static void Main()
     {
-        Console.WriteLine(""Hello World Static"");
+        Console.WriteLine(""Hello World Static: "" + count++);
     }
 }
 ";
 RunOption runOptionStatic = new RunOption() { IsStatic = true };
-ScriptRunner.Run(codeStatic, runOptionStatic);
+runOptionStatic.InstanceObject = ScriptRunner.GetInstanceObject(codeStatic, runOptionStatic);
+ScriptRunner.Run(runOptionStatic);
+ScriptRunner.Run(runOptionStatic);
 
 /**
  * Private Static test

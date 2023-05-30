@@ -21,6 +21,39 @@ class Run
 ";
 RoslynScriptRunner.ScriptRunner.Run(codeHelloWorld);
 ```
+**If you want to hold an InstanceObject**
+``` csharp
+string codeStatic = @"
+using System;
+public static class Run
+{
+    public static int count = 1;
+    public static void Main()
+    {
+        Console.WriteLine(""Hello World Static: "" + count++);
+    }
+}
+";
+RunOption runOptionStatic = new RunOption() { IsStatic = true };
+runOptionStatic.InstanceObject = ScriptRunner.GetInstanceObject(codeStatic, runOptionStatic);
+ScriptRunner.Run(runOptionStatic);
+ScriptRunner.Run(runOptionStatic);
+```
+**If you want to create delegate**
+``` csharp
+string codeDelegateHelloWorld = @"
+using System;
+public class Run
+{
+    public string DelegateHelloWorldFunc()
+    {
+        return ""Delegate Hello World"";
+    }
+}
+";
+var DelegateHelloWorldFunc = RoslynScriptRunner.ScriptRunner.GenerateFunc<string>(codeDelegateHelloWorld, new RunOption() { MethodName = "DelegateHelloWorldFunc" });
+Console.WriteLine(DelegateHelloWorldFunc(null));
+```
 
 #### API
 ``` csharp
@@ -40,6 +73,12 @@ object Run(RunOption runOption)
 ```
 ``` csharp
 Task<object> RunAsync(RunOption runOption)
+```
+``` csharp
+Func<object[], object> GenerateFunc(string functionCode, RunOption runOption = null)
+```
+``` csharp
+Func<object[], TResult> GenerateFunc<TResult>(string code, RunOption runOption = null)
 ```
 ``` csharp
 InstanceObject GetInstanceObject(string code, RunOption runOption = null)
