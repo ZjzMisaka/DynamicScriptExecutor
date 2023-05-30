@@ -180,3 +180,55 @@ static class Run
 ";
 RunOption runOptionPrivateStatic = new RunOption() { IsStatic = true, NonPublic = true };
 ScriptRunner.Run(codePrivateStatic, runOptionPrivateStatic);
+
+/**
+ * Delegate HelloWorld
+ */
+string codeDelegateHelloWorld = @"
+using System;
+public class Run
+{
+    public string DelegateHelloWorldFunc()
+    {
+        return ""Delegate Hello World"";
+    }
+}
+";
+var DelegateHelloWorldFunc = ScriptRunner.GenerateFunc<string>(codeDelegateHelloWorld, new RunOption() { MethodName = "DelegateHelloWorldFunc" });
+Console.WriteLine(DelegateHelloWorldFunc(null));
+
+/**
+ * Delegate test
+ */
+string codeDelegate = @"
+using System;
+using System.Text;
+public class Run
+{
+    public string DelegateTestFunc(int length, char c, int textIndex)
+    {
+        StringBuilder stringBuilder = new (new string('-', length));
+        stringBuilder[textIndex] = c;
+        return stringBuilder.ToString();
+    }
+}
+";
+var DelegateTestFunc = ScriptRunner.GenerateFunc<string>(codeDelegate, new RunOption() { MethodName = "DelegateTestFunc" });
+Console.WriteLine(DelegateTestFunc(new object[] { 10, 't', 3 }));
+
+/**
+ * Delegate no generic test
+ */
+string codeDelegateNoGeneric = @"
+using System;
+using System.Text;
+public class Run
+{
+    public string DelegateNoGenericTestFunc()
+    {
+        return ""Delegate no generic test"";
+    }
+}
+";
+var DelegateNoGenericTestFunc = ScriptRunner.GenerateFunc(codeDelegateNoGeneric, new RunOption() { MethodName = "DelegateNoGenericTestFunc" });
+Console.WriteLine(DelegateNoGenericTestFunc(null));

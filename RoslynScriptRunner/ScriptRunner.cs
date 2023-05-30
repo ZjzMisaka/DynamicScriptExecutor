@@ -95,6 +95,33 @@ namespace RoslynScriptRunner
             return await Task.Run(() => Run(runOption));
         }
 
+        public static Func<object[], object> GenerateFunc(string functionCode, RunOption runOption = null)
+        {
+            return GenerateFunc<object>(functionCode, runOption);
+        }
+
+        public static Func<object[], TResult> GenerateFunc<TResult>(string code, RunOption runOption = null)
+        {
+            if (runOption == null)
+            {
+                runOption = new RunOption();
+            }
+
+            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
+            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
+
+
+            Delegate functionDelegate = delegate (object[] paramList) { return RunMethod<TResult>(createDelegateMethod, functionWrapperInstanceObject, paramList); };
+            return (Func<object[], TResult>)functionDelegate;
+        }
+
+        private static TResult RunMethod<TResult>(MethodInfo methodInfo, InstanceObject instanceObject, object[] paramList)
+        {
+            return (TResult)methodInfo.Invoke(instanceObject.Instance, paramList);
+        }
+
+
         public static InstanceObject GetInstanceObject(string code, RunOption runOption = null)
         {
             return GetInstanceObject(new string[] { code }, runOption, null);
