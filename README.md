@@ -54,6 +54,24 @@ public class Run
 var DelegateHelloWorldFunc = RoslynScriptRunner.ScriptRunner.GenerateFunc<string>(codeDelegateHelloWorld, new RunOption() { MethodName = "DelegateHelloWorldFunc" });
 Console.WriteLine(DelegateHelloWorldFunc(null));
 ```
+**If you only want to write functions and don't want to write using statement**
+``` csharp
+string codeGenerateClassWithFunction = @"
+public int GenerateClassWithFunctionTestFunc()
+{
+    List<DiffRes> res = DiffTool.Diff(
+        new List<string>() { ""11111111"", ""2222222"",  ""3333333"",  ""4444444"",  ""555"", ""666"", ""777"", ""888"", """", ""999"", ""99"", ""88"", ""77"" }, 
+        new List<string>() { ""11111111"", ""22222222"", ""33333333"", ""44444444"",                             """", ""666"", ""99"", ""88"", ""77"" });
+    List<GroupedDiffRes> groupedDiffRes = DiffTool.GetGroupedResult(res);
+    return groupedDiffRes.Count;
+}
+";
+RunOption generateClassWithFunctionOption = new RunOption();
+generateClassWithFunctionOption.ExtraDllFileList = new List<string> { "Diff.dll" };
+generateClassWithFunctionOption.MethodName = "GenerateClassWithFunctionTestFunc";
+string codeGeneratedClassWithFunction = ScriptRunner.GenerateClassWithFunction(codeGenerateClassWithFunction, generateClassWithFunctionOption);
+Console.WriteLine(ScriptRunner.Run(codeGeneratedClassWithFunction, generateClassWithFunctionOption));
+```
 
 #### API
 ``` csharp
@@ -79,6 +97,15 @@ Func<object[], object> GenerateFunc(string functionCode, RunOption runOption = n
 ```
 ``` csharp
 Func<object[], TResult> GenerateFunc<TResult>(string code, RunOption runOption = null)
+```
+``` csharp
+string GenerateClassWithFunction(string code, RunOption runOption = null)
+```
+``` csharp
+string GenerateClassWithFunction(string code, ICollection<string> extraDllNamespaces)
+```
+``` csharp
+ICollection<string> GetExtraDllNamespaces(RunOption runOption = null)
 ```
 ``` csharp
 InstanceObject GetInstanceObject(string code, RunOption runOption = null)

@@ -124,16 +124,6 @@ namespace RoslynScriptRunner
             return (TResult)methodInfo.Invoke(instanceObject.Instance, paramList);
         }
 
-        public static InstanceObject GetInstanceObject(string code, RunOption runOption = null)
-        {
-            return GetInstanceObject(new string[] { code }, runOption, null);
-        }
-
-        public static InstanceObject GetInstanceObject(ICollection<string> codeList, RunOption runOption = null)
-        {
-            return GetInstanceObject(codeList, runOption, null);
-        }
-
         public static string GenerateClassWithFunction(string code, RunOption runOption = null)
         {
             return GenerateClassWithFunction(code, GetExtraDllNamespaces(runOption));
@@ -222,6 +212,16 @@ public class Run
                     }
                 }
             }
+        }
+
+        public static InstanceObject GetInstanceObject(string code, RunOption runOption = null)
+        {
+            return GetInstanceObject(new string[] { code }, runOption, null);
+        }
+
+        public static InstanceObject GetInstanceObject(ICollection<string> codeList, RunOption runOption = null)
+        {
+            return GetInstanceObject(codeList, runOption, null);
         }
 
         private static InstanceObject GetInstanceObject(ICollection<string> codeList, RunOption runOption = null, List<string> needDelDll = null)
