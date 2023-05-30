@@ -1,6 +1,9 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.VisualBasic;
+using Microsoft.VisualBasic.FileIO;
+using System.Collections.Generic;
+using System.Dynamic;
 using System.Reflection;
 
 namespace RoslynScriptRunner
@@ -121,7 +124,6 @@ namespace RoslynScriptRunner
             return (TResult)methodInfo.Invoke(instanceObject.Instance, paramList);
         }
 
-
         public static InstanceObject GetInstanceObject(string code, RunOption runOption = null)
         {
             return GetInstanceObject(new string[] { code }, runOption, null);
@@ -130,6 +132,96 @@ namespace RoslynScriptRunner
         public static InstanceObject GetInstanceObject(ICollection<string> codeList, RunOption runOption = null)
         {
             return GetInstanceObject(codeList, runOption, null);
+        }
+
+        public static string GenerateClassWithFunction(string code, RunOption runOption = null)
+        {
+            return GenerateClassWithFunction(code, GetExtraDllNamespaces(runOption));
+        }
+
+        public static string GenerateClassWithFunction(string code, ICollection<string> extraDllNamespaces)
+        {
+            string usings = "";
+            foreach (string nameSpace in extraDllNamespaces)
+            {
+                usings += "using " + nameSpace + ";\n";
+            }
+            return @$"
+using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+{usings}
+public class Run
+{{
+    {code}
+}}
+";
+        }
+
+        public static ICollection<string> GetExtraDllNamespaces(RunOption runOption = null)
+        {
+            if (runOption == null)
+            {
+                return new HashSet<string>();
+            }
+            List<Assembly> extraAssemblies = new List<Assembly>();
+            GetExtraDlls(runOption, null, extraAssemblies);
+            HashSet<string> result = new HashSet<string>();
+            foreach (Assembly assembly in extraAssemblies)
+            {
+                foreach (Type type in assembly.GetTypes())
+                {
+                    if (!result.Contains(type.Namespace))
+                    {
+                        result.Add(type.Namespace);
+                    }
+                }
+            }
+            return result;
+        }
+
+        private static void GetExtraDlls(RunOption runOption, List<string> dlls, List<Assembly> extraAssemblies)
+        {
+            // Dll文件夹中的dll
+            if (runOption.ExtraDllFolderList != null)
+            {
+                foreach (string extraDllFolder in runOption.ExtraDllFolderList)
+                {
+                    FileSystemInfo[] dllInfos = FileHelper.GetDllInfos(extraDllFolder);
+                    if (dllInfos != null && dllInfos.Count() != 0)
+                    {
+                        foreach (FileSystemInfo dllInfo in dllInfos)
+                        {
+                            if (dlls != null)
+                            {
+                                dlls.Add(dllInfo.FullName);
+                            }
+                            Assembly assembly = Assembly.LoadFrom(dllInfo.FullName);
+                            if (extraAssemblies != null)
+                            {
+                                extraAssemblies.Add(assembly);
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 单独的dll
+            if (runOption.ExtraDllFileList != null)
+            {
+                foreach (string extraDllFile in runOption.ExtraDllFileList)
+                {
+                    if (dlls != null)
+                    {
+                        dlls.Add(extraDllFile);
+                    }
+                    Assembly assembly = Assembly.LoadFrom(extraDllFile);
+                    if (extraAssemblies != null)
+                    {
+                        extraAssemblies.Add(assembly);
+                    }
+                }
+            }
         }
 
         private static InstanceObject GetInstanceObject(ICollection<string> codeList, RunOption runOption = null, List<string> needDelDll = null)
@@ -141,32 +233,7 @@ namespace RoslynScriptRunner
                 runOption = new RunOption();
             }
 
-            // Dll文件夹中的dll
-            if (runOption.ExtraDllFolderList != null) 
-            {
-                foreach (string extraDllFolder in runOption.ExtraDllFolderList)
-                {
-                    FileSystemInfo[] dllInfos = FileHelper.GetDllInfos(extraDllFolder);
-                    if (dllInfos != null && dllInfos.Count() != 0)
-                    {
-                        foreach (FileSystemInfo dllInfo in dllInfos)
-                        {
-                            dlls.Add(dllInfo.FullName);
-                            _ = Assembly.LoadFrom(dllInfo.FullName);
-                        }
-                    }
-                }
-            }
-
-            // 单独的dll
-            if (runOption.ExtraDllFileList != null)
-            {
-                foreach (string extraDllFile in runOption.ExtraDllFileList)
-                {
-                    dlls.Add(extraDllFile);
-                    _ = Assembly.LoadFrom(extraDllFile);
-                }
-            }
+            GetExtraDlls(runOption, dlls, null);
 
             // 根目录的Dll
             FileSystemInfo[] dllInfosBase = FileHelper.GetDllInfos(Environment.CurrentDirectory);
