@@ -19,7 +19,7 @@ class Run
     }
 }
 ";
-RoslynScriptRunner.ScriptRunner.Run(codeHelloWorld);
+RoslynScriptRunner.ScriptRunner.Run(codeHelloWorld); // Hello World
 ```
 **If you want to hold an InstanceObject**
 ``` csharp
@@ -36,8 +36,8 @@ public static class Run
 ";
 RunOption runOptionStatic = new RunOption() { IsStatic = true };
 runOptionStatic.InstanceObject = ScriptRunner.GetInstanceObject(codeStatic, runOptionStatic);
-ScriptRunner.Run(runOptionStatic);
-ScriptRunner.Run(runOptionStatic);
+ScriptRunner.Run(runOptionStatic); // Hello World Static: 1
+ScriptRunner.Run(runOptionStatic); // Hello World Static: 2
 ```
 **If you want to create delegate**
 ``` csharp
@@ -52,7 +52,7 @@ public class Run
 }
 ";
 var DelegateHelloWorldFunc = RoslynScriptRunner.ScriptRunner.GenerateFunc<string>(codeDelegateHelloWorld, new RunOption() { MethodName = "DelegateHelloWorldFunc" });
-Console.WriteLine(DelegateHelloWorldFunc(null));
+Console.WriteLine(DelegateHelloWorldFunc(null)); // Delegate Hello World
 ```
 **If you only want to write functions and don't want to write using statement**
 ``` csharp
@@ -70,7 +70,7 @@ RunOption generateClassWithFunctionOption = new RunOption();
 generateClassWithFunctionOption.ExtraDllFileList = new List<string> { "Diff.dll" };
 generateClassWithFunctionOption.MethodName = "GenerateClassWithFunctionTestFunc";
 string codeGeneratedClassWithFunction = ScriptRunner.GenerateClassWithFunction(codeGenerateClassWithFunction, generateClassWithFunctionOption);
-Console.WriteLine(ScriptRunner.Run(codeGeneratedClassWithFunction, generateClassWithFunctionOption));
+Console.WriteLine(ScriptRunner.Run(codeGeneratedClassWithFunction, generateClassWithFunctionOption)); // 7
 ```
 
 #### API
@@ -93,7 +93,7 @@ object Run(RunOption runOption)
 Task<object> RunAsync(RunOption runOption)
 ```
 ``` csharp
-Func<object[], object> GenerateFunc(string functionCode, RunOption runOption = null)
+Func<object[], object> GenerateFunc(string code, RunOption runOption = null)
 ```
 ``` csharp
 Func<object[], TResult> GenerateFunc<TResult>(string code, RunOption runOption = null)
@@ -102,7 +102,7 @@ Func<object[], TResult> GenerateFunc<TResult>(string code, RunOption runOption =
 string GenerateClassWithFunction(string code, RunOption runOption = null)
 ```
 ``` csharp
-string GenerateClassWithFunction(string code, ICollection<string> extraDllNamespaces)
+string GenerateClassWithFunction(string code, ICollection<string> extraDllNamespaces, RunOption runOption = null)
 ```
 ``` csharp
 ICollection<string> GetExtraDllNamespaces(RunOption runOption = null)
@@ -126,6 +126,8 @@ InstanceObject instanceObject;
 ScriptLanguage scriptLanguage;
 bool nonPublic;
 bool isStatic;
+bool addDefaultUsingWhenGeneratingClass;
+bool addExtraUsingWhenGeneratingClass;
 ```
 **ScriptLanguage**
 - CSharp

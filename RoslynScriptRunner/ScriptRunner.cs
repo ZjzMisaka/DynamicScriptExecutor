@@ -98,9 +98,9 @@ namespace RoslynScriptRunner
             return await Task.Run(() => Run(runOption));
         }
 
-        public static Func<object[], object> GenerateFunc(string functionCode, RunOption runOption = null)
+        public static Func<object[], object> GenerateFunc(string code, RunOption runOption = null)
         {
-            return GenerateFunc<object>(functionCode, runOption);
+            return GenerateFunc<object>(code, runOption);
         }
 
         public static Func<object[], TResult> GenerateFunc<TResult>(string code, RunOption runOption = null)
@@ -126,21 +126,80 @@ namespace RoslynScriptRunner
 
         public static string GenerateClassWithFunction(string code, RunOption runOption = null)
         {
-            return GenerateClassWithFunction(code, GetExtraDllNamespaces(runOption));
+            if (runOption == null)
+            {
+                runOption = new RunOption();
+            }
+
+            if (runOption.AddExtraUsingWhenGeneratingClass)
+            {
+                return GenerateClassWithFunction(code, GetExtraDllNamespaces(runOption), runOption);
+            }
+            else
+            {
+                return GenerateClassWithFunction(code, new HashSet<string>(), runOption);
+            }
         }
 
-        public static string GenerateClassWithFunction(string code, ICollection<string> extraDllNamespaces)
+        public static string GenerateClassWithFunction(string code, ICollection<string> extraDllNamespaces, RunOption runOption = null)
         {
-            string usings = "";
-            foreach (string nameSpace in extraDllNamespaces)
+            if (runOption == null)
             {
-                usings += "using " + nameSpace + ";\n";
+                runOption = new RunOption();
             }
+
+            string extraUsings = "";
+            if (runOption.AddExtraUsingWhenGeneratingClass)
+            {
+                foreach (string nameSpace in extraDllNamespaces)
+                {
+                    extraUsings += "using " + nameSpace + ";\n";
+                }
+            }
+
+            string defaultUsings;
+            if (runOption.AddDefaultUsingWhenGeneratingClass)
+            {
+                defaultUsings = @"
+using System.Collections.Generic;
+using System.Collections.Concurrent;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Text.RegularExpressions;
+using System.Threading;
+using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Drawing;
+using System.Globalization;
+using System.Runtime.Serialization;
+using System.Security.Cryptography;
+using System.Xml;
+using System.Xml.Linq;
+using System.Reflection;
+using System.Runtime.InteropServices;
+using System.Net.Sockets;
+using System.Net.WebSockets;
+using System.Security.Claims;
+using System.Security.Principal;
+using System.IO.Compression;
+using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.Data;
+using System.Data.SqlClient;
+";
+            }
+            else
+            {
+                defaultUsings = "";
+            }
+
             return @$"
 using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
-{usings}
+{defaultUsings}
+{extraUsings}
 public class Run
 {{
     {code}
@@ -150,10 +209,6 @@ public class Run
 
         public static ICollection<string> GetExtraDllNamespaces(RunOption runOption = null)
         {
-            if (runOption == null)
-            {
-                return new HashSet<string>();
-            }
             List<Assembly> extraAssemblies = new List<Assembly>();
             GetExtraDlls(runOption, null, extraAssemblies);
             HashSet<string> result = new HashSet<string>();

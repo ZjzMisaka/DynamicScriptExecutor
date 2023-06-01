@@ -16,8 +16,10 @@
         private ScriptLanguage scriptLanguage;
         private bool nonPublic;
         private bool isStatic;
+        private bool addDefaultUsingWhenGeneratingClass;
+        private bool addExtraUsingWhenGeneratingClass;
 
-        public RunOption(object[] paramList = null, ICollection<string> extraDllFolderList = null, ICollection<string> extraDllFileList = null, string methodName = "Main", string className = "Run", InstanceObject instanceObject = null, ScriptLanguage scriptLanguage = ScriptLanguage.CSharp, bool nonPublic = false, bool isStatic = false)
+        public RunOption(object[] paramList = null, ICollection<string> extraDllFolderList = null, ICollection<string> extraDllFileList = null, string methodName = "Main", string className = "Run", InstanceObject instanceObject = null, ScriptLanguage scriptLanguage = ScriptLanguage.CSharp, bool nonPublic = false, bool isStatic = false, bool addDefaultUsingWhenGeneratingClass = true, bool addExtraUsingWhenGeneratingClass = true)
         {
             this.paramList = paramList;
             this.extraDllFolderList = extraDllFolderList;
@@ -28,6 +30,8 @@
             this.scriptLanguage = scriptLanguage;
             this.nonPublic = nonPublic;
             this.isStatic = isStatic;
+            this.addDefaultUsingWhenGeneratingClass = addDefaultUsingWhenGeneratingClass;
+            this.addExtraUsingWhenGeneratingClass = addExtraUsingWhenGeneratingClass;
         }
 
         public object[] ParamList { get => paramList; set => paramList = value; }
@@ -39,10 +43,12 @@
         public ScriptLanguage ScriptLanguage { get => scriptLanguage; set => scriptLanguage = value; }
         public bool NonPublic { get => nonPublic; set => nonPublic = value; }
         public bool IsStatic { get => isStatic; set => isStatic = value; }
+        public bool AddDefaultUsingWhenGeneratingClass { get => addDefaultUsingWhenGeneratingClass; set => addDefaultUsingWhenGeneratingClass = value; }
+        public bool AddExtraUsingWhenGeneratingClass { get => addExtraUsingWhenGeneratingClass; set => addExtraUsingWhenGeneratingClass = value; }
 
         public RunOption Copy()
         { 
-            return new RunOption(this.ParamList, this.ExtraDllFolderList, this.ExtraDllFileList, this.MethodName, this.ClassName, this.InstanceObject, this.ScriptLanguage, this.NonPublic, this.IsStatic);
+            return new RunOption(this.ParamList, this.ExtraDllFolderList, this.ExtraDllFileList, this.MethodName, this.ClassName, this.InstanceObject, this.ScriptLanguage, this.NonPublic, this.IsStatic, this.addDefaultUsingWhenGeneratingClass, this.addExtraUsingWhenGeneratingClass);
         }
     }
 }
