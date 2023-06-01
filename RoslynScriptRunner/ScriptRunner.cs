@@ -209,6 +209,16 @@ public class Run
 
         public static ICollection<string> GetExtraDllNamespaces(RunOption runOption = null)
         {
+            if (runOption == null)
+            {
+                runOption = new RunOption();
+            }
+
+            if (!runOption.AddExtraUsingWhenGeneratingClass)
+            { 
+                return new HashSet<string>();
+            }
+
             List<Assembly> extraAssemblies = new List<Assembly>();
             GetExtraDlls(runOption, null, extraAssemblies);
             HashSet<string> result = new HashSet<string>();
