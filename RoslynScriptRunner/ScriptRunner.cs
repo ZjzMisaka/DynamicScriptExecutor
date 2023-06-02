@@ -153,7 +153,7 @@ namespace RoslynScriptRunner
             {
                 foreach (string nameSpace in extraDllNamespaces)
                 {
-                    extraUsings += "using " + nameSpace + ";\n";
+                    extraUsings = $"{extraUsings}using {nameSpace};\n";
                 }
             }
 
@@ -430,7 +430,7 @@ public class Run
                     else
                     {
                         breakError = true;
-                        errorStr = $"{errorStr}\n    {diagnostic.Id}: {diagnostic.GetMessage()}";
+                        errorStr = $"{errorStr}\n    {diagnostic.ToString()}";
                     }
                 }
 
