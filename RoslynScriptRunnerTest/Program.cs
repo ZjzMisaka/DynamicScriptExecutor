@@ -237,6 +237,25 @@ var DelegateNoGenericTestFunc = ScriptRunner.GenerateFunc(codeDelegateNoGeneric,
 Console.WriteLine(DelegateNoGenericTestFunc(null));
 
 /**
+ * Delegate test
+ */
+string codeDelegateMultipleParams = @"
+using System;
+using System.Text;
+public class Run
+{
+    public string CodeDelegateMultipleParamsTestFunc(int length, char c, int textIndex)
+    {
+        StringBuilder stringBuilder = new (new string('-', length));
+        stringBuilder[textIndex] = c;
+        return stringBuilder.ToString();
+    }
+}
+";
+var CodeDelegateMultipleParamsTestFunc = ScriptRunner.GenerateFunc<int, char, int, string>(codeDelegateMultipleParams, new RunOption() { MethodName = "CodeDelegateMultipleParamsTestFunc" });
+Console.WriteLine(CodeDelegateMultipleParamsTestFunc(10, 't', 6));
+
+/**
  * GenerateClassWithFunction test
  */
 string codeGenerateClassWithFunction = @"

@@ -119,6 +119,206 @@ namespace RoslynScriptRunner
             return (Func<object[], TResult>)functionDelegate;
         }
 
+        public static Func<T1, TResult> GenerateFunc<T1, TResult>(string code, RunOption runOption = null)
+        {
+            if (runOption == null)
+            {
+                runOption = new RunOption();
+            }
+
+            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
+            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
+
+
+            Delegate functionDelegate = delegate (T1 p1)
+            {
+                object[] paramList = new object[1] { p1 };
+                return RunMethod<TResult>(createDelegateMethod, functionWrapperInstanceObject, paramList);
+            };
+            return (Func<T1, TResult>)functionDelegate;
+        }
+
+        public static Func<T1, T2, TResult> GenerateFunc<T1, T2, TResult>(string code, RunOption runOption = null)
+        {
+            if (runOption == null)
+            {
+                runOption = new RunOption();
+            }
+
+            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
+            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
+
+
+            Delegate functionDelegate = delegate (T1 p1, T2 p2) 
+            {
+                object[] paramList = new object[2] { p1, p2 };
+                return RunMethod<TResult>(createDelegateMethod, functionWrapperInstanceObject, paramList);
+            };
+            return (Func<T1, T2, TResult>)functionDelegate;
+        }
+
+        public static Func<T1, T2, T3, TResult> GenerateFunc<T1, T2, T3, TResult>(string code, RunOption runOption = null)
+        {
+            if (runOption == null)
+            {
+                runOption = new RunOption();
+            }
+
+            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
+            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
+
+
+            Delegate functionDelegate = delegate (T1 p1, T2 p2, T3 p3)
+            {
+                object[] paramList = new object[3] { p1, p2, p3 };
+                return RunMethod<TResult>(createDelegateMethod, functionWrapperInstanceObject, paramList);
+            };
+            return (Func<T1, T2, T3, TResult>)functionDelegate;
+        }
+
+        public static Func<T1, T2, T3, T4, TResult> GenerateFunc<T1, T2, T3, T4, TResult>(string code, RunOption runOption = null)
+        {
+            if (runOption == null)
+            {
+                runOption = new RunOption();
+            }
+
+            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
+            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
+
+
+            Delegate functionDelegate = delegate (T1 p1, T2 p2, T3 p3, T4 p4)
+            {
+                object[] paramList = new object[4] { p1, p2, p3, p4 };
+                return RunMethod<TResult>(createDelegateMethod, functionWrapperInstanceObject, paramList);
+            };
+            return (Func<T1, T2, T3, T4, TResult>)functionDelegate;
+        }
+
+        public static Func<T1, T2, T3, T4, T5, TResult> GenerateFunc<T1, T2, T3, T4, T5, TResult>(string code, RunOption runOption = null)
+        {
+            if (runOption == null)
+            {
+                runOption = new RunOption();
+            }
+
+            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
+            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
+
+
+            Delegate functionDelegate = delegate (T1 p1, T2 p2, T3 p3, T4 p4, T5 p5)
+            {
+                object[] paramList = new object[5] { p1, p2, p3, p4, p5 };
+                return RunMethod<TResult>(createDelegateMethod, functionWrapperInstanceObject, paramList);
+            };
+            return (Func<T1, T2, T3, T4, T5, TResult>)functionDelegate;
+        }
+
+        public static Func<T1, T2, T3, T4, T5, T6, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, TResult>(string code, RunOption runOption = null)
+        {
+            if (runOption == null)
+            {
+                runOption = new RunOption();
+            }
+
+            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
+            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
+
+
+            Delegate functionDelegate = delegate (T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6)
+            {
+                object[] paramList = new object[6] { p1, p2, p3, p4, p5, p6 };
+                return RunMethod<TResult>(createDelegateMethod, functionWrapperInstanceObject, paramList);
+            };
+            return (Func<T1, T2, T3, T4, T5, T6, TResult>)functionDelegate;
+        }
+
+        public static Func<T1, T2, T3, T4, T5, T6, T7, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, TResult>(string code, RunOption runOption = null)
+        {
+            if (runOption == null)
+            {
+                runOption = new RunOption();
+            }
+
+            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
+            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
+
+
+            Delegate functionDelegate = delegate (T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7)
+            {
+                object[] paramList = new object[7] { p1, p2, p3, p4, p5, p6, p7 };
+                return RunMethod<TResult>(createDelegateMethod, functionWrapperInstanceObject, paramList);
+            };
+            return (Func<T1, T2, T3, T4, T5, T6, T7, TResult>)functionDelegate;
+        }
+
+        public static Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(string code, RunOption runOption = null)
+        {
+            if (runOption == null)
+            {
+                runOption = new RunOption();
+            }
+
+            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
+            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
+
+
+            Delegate functionDelegate = delegate (T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8)
+            {
+                object[] paramList = new object[8] { p1, p2, p3, p4, p5, p6, p7, p8 };
+                return RunMethod<TResult>(createDelegateMethod, functionWrapperInstanceObject, paramList);
+            };
+            return (Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult>)functionDelegate;
+        }
+
+        public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(string code, RunOption runOption = null)
+        {
+            if (runOption == null)
+            {
+                runOption = new RunOption();
+            }
+
+            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
+            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
+
+
+            Delegate functionDelegate = delegate (T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8, T9 p9)
+            {
+                object[] paramList = new object[9] { p1, p2, p3, p4, p5, p6, p7, p8, p9 };
+                return RunMethod<TResult>(createDelegateMethod, functionWrapperInstanceObject, paramList);
+            };
+            return (Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>)functionDelegate;
+        }
+
+        public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(string code, RunOption runOption = null)
+        {
+            if (runOption == null)
+            {
+                runOption = new RunOption();
+            }
+
+            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
+            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
+
+
+            Delegate functionDelegate = delegate (T1 p1, T2 p2, T3 p3, T4 p4, T5 p5, T6 p6, T7 p7, T8 p8, T9 p9, T10 p10)
+            {
+                object[] paramList = new object[10] { p1, p2, p3, p4, p5, p6, p7, p8, p9, p10 };
+                return RunMethod<TResult>(createDelegateMethod, functionWrapperInstanceObject, paramList);
+            };
+            return (Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>)functionDelegate;
+        }
+
         private static TResult RunMethod<TResult>(MethodInfo methodInfo, InstanceObject instanceObject, object[] paramList)
         {
             return (TResult)methodInfo.Invoke(instanceObject.Instance, paramList);

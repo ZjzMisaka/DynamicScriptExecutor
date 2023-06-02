@@ -99,6 +99,36 @@ Func<object[], object> GenerateFunc(string code, RunOption runOption = null)
 Func<object[], TResult> GenerateFunc<TResult>(string code, RunOption runOption = null)
 ```
 ``` csharp
+Func<T1, TResult> GenerateFunc<T1, TResult>(string code, RunOption runOption = null)
+```
+``` csharp
+Func<T1, T2, TResult> GenerateFunc<T1, T2, TResult>(string code, RunOption runOption = null)
+```
+``` csharp
+Func<T1, T2, T3, TResult> GenerateFunc<T1, T2, T3, TResult>(string code, RunOption runOption = null)
+```
+``` csharp
+Func<T1, T2, T3, T4, TResult> GenerateFunc<T1, T2, T3, T4, TResult>(string code, RunOption runOption = null)
+```
+``` csharp
+Func<T1, T2, T3, T4, T5, TResult> GenerateFunc<T1, T2, T3, T4, T5, TResult>(string code, RunOption runOption = null)
+```
+``` csharp
+Func<T1, T2, T3, T4, T5, T6, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, TResult>(string code, RunOption runOption = null)
+```
+``` csharp
+Func<T1, T2, T3, T4, T5, T6, T7, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, TResult>(string code, RunOption runOption = null)
+```
+``` csharp
+Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(string code, RunOption runOption = null)
+```
+``` csharp
+Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(string code, RunOption runOption = null)
+```
+``` csharp
+Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(string code, RunOption runOption = null)
+```
+``` csharp
 string GenerateClassWithFunction(string code, RunOption runOption = null)
 ```
 ``` csharp
