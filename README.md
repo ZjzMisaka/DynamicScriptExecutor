@@ -96,37 +96,73 @@ Task<object> RunAsync(RunOption runOption)
 Func<object[], object> GenerateFunc(string code, RunOption runOption = null)
 ```
 ``` csharp
+Func<object[], object> GenerateFunc(RunOption runOption)
+```
+``` csharp
 Func<object[], TResult> GenerateFunc<TResult>(string code, RunOption runOption = null)
+```
+``` csharp
+Func<object[], TResult> GenerateFunc<TResult>(RunOption runOption)
 ```
 ``` csharp
 Func<T1, TResult> GenerateFunc<T1, TResult>(string code, RunOption runOption = null)
 ```
 ``` csharp
+Func<T1, TResult> GenerateFunc<T1, TResult>(RunOption runOption)
+```
+``` csharp
 Func<T1, T2, TResult> GenerateFunc<T1, T2, TResult>(string code, RunOption runOption = null)
+```
+``` csharp
+Func<T1, T2, TResult> GenerateFunc<T1, T2, TResult>(RunOption runOption)
 ```
 ``` csharp
 Func<T1, T2, T3, TResult> GenerateFunc<T1, T2, T3, TResult>(string code, RunOption runOption = null)
 ```
 ``` csharp
+Func<T1, T2, T3, TResult> GenerateFunc<T1, T2, T3, TResult>(RunOption runOption)
+```
+``` csharp
 Func<T1, T2, T3, T4, TResult> GenerateFunc<T1, T2, T3, T4, TResult>(string code, RunOption runOption = null)
+```
+``` csharp
+Func<T1, T2, T3, T4, TResult> GenerateFunc<T1, T2, T3, T4, TResult>(RunOption runOption)
 ```
 ``` csharp
 Func<T1, T2, T3, T4, T5, TResult> GenerateFunc<T1, T2, T3, T4, T5, TResult>(string code, RunOption runOption = null)
 ```
 ``` csharp
+Func<T1, T2, T3, T4, T5, TResult> GenerateFunc<T1, T2, T3, T4, T5, TResult>(RunOption runOption)
+```
+``` csharp
 Func<T1, T2, T3, T4, T5, T6, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, TResult>(string code, RunOption runOption = null)
+```
+``` csharp
+Func<T1, T2, T3, T4, T5, T6, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, TResult>(RunOption runOption)
 ```
 ``` csharp
 Func<T1, T2, T3, T4, T5, T6, T7, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, TResult>(string code, RunOption runOption = null)
 ```
 ``` csharp
+Func<T1, T2, T3, T4, T5, T6, T7, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, TResult>(RunOption runOption)
+```
+``` csharp
 Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(string code, RunOption runOption = null)
+```
+``` csharp
+Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(RunOption runOption)
 ```
 ``` csharp
 Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(string code, RunOption runOption = null)
 ```
 ``` csharp
+Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(RunOption runOption)
+```
+``` csharp
 Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(string code, RunOption runOption = null)
+```
+``` csharp
+Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(RunOption runOption)
 ```
 ``` csharp
 string GenerateClassWithFunction(string code, RunOption runOption = null)
@@ -135,7 +171,7 @@ string GenerateClassWithFunction(string code, RunOption runOption = null)
 string GenerateClassWithFunction(string code, ICollection<string> extraDllNamespaces, RunOption runOption = null)
 ```
 ``` csharp
-ICollection<string> GetExtraDllNamespaces(RunOption runOption = null)
+ICollection<string> GetExtraDllNamespaces(RunOption runOption)
 ```
 ``` csharp
 InstanceObject GetInstanceObject(string code, RunOption runOption = null)

@@ -103,6 +103,11 @@ namespace RoslynScriptRunner
             return GenerateFunc<object>(code, runOption);
         }
 
+        public static Func<object[], object> GenerateFunc(RunOption runOption)
+        {
+            return GenerateFunc<object>(runOption);
+        }
+
         public static Func<object[], TResult> GenerateFunc<TResult>(string code, RunOption runOption = null)
         {
             if (runOption == null)
@@ -110,10 +115,23 @@ namespace RoslynScriptRunner
                 runOption = new RunOption();
             }
 
-            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
-            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
-            MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
+            RunOption newRunOption = runOption.Copy();
 
+            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
+            newRunOption.InstanceObject = functionWrapperInstanceObject;
+
+            return GenerateFunc<TResult>(newRunOption);
+        }
+
+        public static Func<object[], TResult> GenerateFunc<TResult>(RunOption runOption)
+        {
+            if (runOption == null)
+            {
+                runOption = new RunOption();
+            }
+
+            InstanceObject functionWrapperInstanceObject = runOption.InstanceObject;
+            MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
 
             Delegate functionDelegate = delegate (object[] paramList) { return RunMethod<TResult>(createDelegateMethod, functionWrapperInstanceObject, paramList); };
             return (Func<object[], TResult>)functionDelegate;
@@ -126,8 +144,15 @@ namespace RoslynScriptRunner
                 runOption = new RunOption();
             }
 
-            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
-            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            RunOption newRunOption = runOption.Copy();
+
+            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            return GenerateFunc<T1, TResult>(newRunOption);
+        }
+
+        public static Func<T1, TResult> GenerateFunc<T1, TResult>(RunOption runOption)
+        {
+            InstanceObject functionWrapperInstanceObject = runOption.InstanceObject;
             MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
 
 
@@ -146,12 +171,19 @@ namespace RoslynScriptRunner
                 runOption = new RunOption();
             }
 
-            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
-            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            RunOption newRunOption = runOption.Copy();
+
+            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            return GenerateFunc<T1, T2, TResult>(newRunOption);
+        }
+
+        public static Func<T1, T2, TResult> GenerateFunc<T1, T2, TResult>(RunOption runOption)
+        {
+            InstanceObject functionWrapperInstanceObject = runOption.InstanceObject;
             MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
 
 
-            Delegate functionDelegate = delegate (T1 p1, T2 p2) 
+            Delegate functionDelegate = delegate (T1 p1, T2 p2)
             {
                 object[] paramList = new object[2] { p1, p2 };
                 return RunMethod<TResult>(createDelegateMethod, functionWrapperInstanceObject, paramList);
@@ -166,8 +198,15 @@ namespace RoslynScriptRunner
                 runOption = new RunOption();
             }
 
-            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
-            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            RunOption newRunOption = runOption.Copy();
+
+            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            return GenerateFunc<T1, T2, T3, TResult>(newRunOption);
+        }
+
+        public static Func<T1, T2, T3, TResult> GenerateFunc<T1, T2, T3, TResult>(RunOption runOption)
+        {
+            InstanceObject functionWrapperInstanceObject = runOption.InstanceObject;
             MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
 
 
@@ -186,8 +225,15 @@ namespace RoslynScriptRunner
                 runOption = new RunOption();
             }
 
-            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
-            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            RunOption newRunOption = runOption.Copy();
+
+            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            return GenerateFunc<T1, T2, T3, T4, TResult>(newRunOption);
+        }
+
+        public static Func<T1, T2, T3, T4, TResult> GenerateFunc<T1, T2, T3, T4, TResult>(RunOption runOption)
+        {
+            InstanceObject functionWrapperInstanceObject = runOption.InstanceObject;
             MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
 
 
@@ -206,8 +252,15 @@ namespace RoslynScriptRunner
                 runOption = new RunOption();
             }
 
-            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
-            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            RunOption newRunOption = runOption.Copy();
+
+            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            return GenerateFunc<T1, T2, T3, T4, T5, TResult>(newRunOption);
+        }
+
+        public static Func<T1, T2, T3, T4, T5, TResult> GenerateFunc<T1, T2, T3, T4, T5, TResult>(RunOption runOption)
+        {
+            InstanceObject functionWrapperInstanceObject = runOption.InstanceObject;
             MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
 
 
@@ -226,8 +279,15 @@ namespace RoslynScriptRunner
                 runOption = new RunOption();
             }
 
-            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
-            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            RunOption newRunOption = runOption.Copy();
+
+            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            return GenerateFunc<T1, T2, T3, T4, T5, T6, TResult>(newRunOption);
+        }
+
+        public static Func<T1, T2, T3, T4, T5, T6, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, TResult>(RunOption runOption)
+        {
+            InstanceObject functionWrapperInstanceObject = runOption.InstanceObject;
             MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
 
 
@@ -246,8 +306,15 @@ namespace RoslynScriptRunner
                 runOption = new RunOption();
             }
 
-            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
-            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            RunOption newRunOption = runOption.Copy();
+
+            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            return GenerateFunc<T1, T2, T3, T4, T5, T6, T7, TResult>(newRunOption);
+        }
+
+        public static Func<T1, T2, T3, T4, T5, T6, T7, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, TResult>(RunOption runOption)
+        {
+            InstanceObject functionWrapperInstanceObject = runOption.InstanceObject;
             MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
 
 
@@ -266,8 +333,15 @@ namespace RoslynScriptRunner
                 runOption = new RunOption();
             }
 
-            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
-            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            RunOption newRunOption = runOption.Copy();
+
+            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            return GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(newRunOption);
+        }
+
+        public static Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(RunOption runOption)
+        {
+            InstanceObject functionWrapperInstanceObject = runOption.InstanceObject;
             MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
 
 
@@ -286,8 +360,15 @@ namespace RoslynScriptRunner
                 runOption = new RunOption();
             }
 
-            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
-            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            RunOption newRunOption = runOption.Copy();
+
+            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            return GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(newRunOption);
+        }
+
+        public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(RunOption runOption)
+        {
+            InstanceObject functionWrapperInstanceObject = runOption.InstanceObject;
             MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
 
 
@@ -306,8 +387,15 @@ namespace RoslynScriptRunner
                 runOption = new RunOption();
             }
 
-            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
-            object functionWrapperInstance = functionWrapperInstanceObject.Instance;
+            RunOption newRunOption = runOption.Copy();
+
+            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            return GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(newRunOption);
+        }
+
+        public static Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(RunOption runOption)
+        {
+            InstanceObject functionWrapperInstanceObject = runOption.InstanceObject;
             MethodInfo createDelegateMethod = functionWrapperInstanceObject.Type.GetMethod(runOption.MethodName);
 
 
@@ -407,13 +495,8 @@ public class Run
 ";
         }
 
-        public static ICollection<string> GetExtraDllNamespaces(RunOption runOption = null)
+        public static ICollection<string> GetExtraDllNamespaces(RunOption runOption)
         {
-            if (runOption == null)
-            {
-                runOption = new RunOption();
-            }
-
             if (!runOption.AddExtraUsingWhenGeneratingClass)
             { 
                 return new HashSet<string>();

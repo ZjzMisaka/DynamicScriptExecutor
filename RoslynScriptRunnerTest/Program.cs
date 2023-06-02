@@ -256,6 +256,27 @@ var CodeDelegateMultipleParamsTestFunc = ScriptRunner.GenerateFunc<int, char, in
 Console.WriteLine(CodeDelegateMultipleParamsTestFunc(10, 't', 6));
 
 /**
+ * Delegate Static test
+ */
+string codeDelegateStatic = @"
+using System;
+public static class Run
+{
+    public static int count = 1;
+    public static void DelegateStaticFunc()
+    {
+        Console.WriteLine(""Hello World Delegate Static: "" + count++);
+    }
+}
+";
+RunOption runOptionDelegateStatic = new RunOption() { IsStatic = true };
+runOptionStatic.InstanceObject = ScriptRunner.GetInstanceObject(codeDelegateStatic, runOptionDelegateStatic);
+runOptionStatic.MethodName = "DelegateStaticFunc";
+var DelegateStaticFunc = ScriptRunner.GenerateFunc<object>(runOptionStatic);
+DelegateStaticFunc(null);
+DelegateStaticFunc(null);
+
+/**
  * GenerateClassWithFunction test
  */
 string codeGenerateClassWithFunction = @"
