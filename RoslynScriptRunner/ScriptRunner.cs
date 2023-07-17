@@ -61,9 +61,7 @@ namespace RoslynScriptRunner
                 MethodInfo methodInfo = instanceObject.Type.GetMethod(runOption.MethodName);
                 if (methodInfo == null)
                 {
-                    Exception e = new Exception($"Method not found: {runOption.MethodName}");
-                    e.Data.Add("Type", "MethodNotFound");
-                    e.Data.Add("Value", runOption.MethodName);
+                    MissingMethodException e = new MissingMethodException(instanceObject.Type.FullName, runOption.MethodName);
                     throw e;
                 }
                 return methodInfo.Invoke(instanceObject.Instance, runOption.ParamList);
@@ -84,9 +82,7 @@ namespace RoslynScriptRunner
                 MethodInfo methodInfo = instanceObject.Type.GetMethod(runOption.MethodName, bindingFlags);
                 if (methodInfo == null)
                 {
-                    Exception e = new Exception($"Method not found: {runOption.MethodName}");
-                    e.Data.Add("Type", "MethodNotFound");
-                    e.Data.Add("Value", runOption.MethodName);
+                    MissingMethodException e = new MissingMethodException(instanceObject.Type.FullName, runOption.MethodName);
                     throw e;
                 }
                 return methodInfo.Invoke(instanceObject.Instance, bindingFlags, null, runOption.ParamList, null);

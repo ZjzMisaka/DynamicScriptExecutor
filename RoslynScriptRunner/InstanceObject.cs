@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace RoslynScriptRunner
 {
@@ -92,7 +93,7 @@ namespace RoslynScriptRunner
                 }
                 if (breakError)
                 {
-                    Exception e = new Exception(errorStr);
+                    SyntaxErrorException e = new SyntaxErrorException(errorStr);
                     e.Data.Add("Type", "SyntaxError");
                     e.Data.Add("Value", errorStr);
                     throw e;
@@ -199,9 +200,7 @@ namespace RoslynScriptRunner
                 Type type = assembly.GetType(runOption.ClassName);
                 if (type == null)
                 {
-                    Exception e = new Exception($"Class not found: {runOption.ClassName}");
-                    e.Data.Add("Type", "ClassNotFound");
-                    e.Data.Add("Value", runOption.ClassName);
+                    TypeLoadException e = new TypeLoadException($"Unable to load type: {runOption.ClassName}");
                     throw e;
                 }
 
