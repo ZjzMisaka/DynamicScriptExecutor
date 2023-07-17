@@ -74,6 +74,7 @@ Console.WriteLine(ScriptRunner.Run(codeGeneratedClassWithFunction, generateClass
 ```
 
 #### API
+**ScriptRunner**
 ``` csharp
 object Run(string code, RunOption runOption = null)
 ```
@@ -170,9 +171,17 @@ string GenerateClassWithFunction(string code, RunOption runOption = null)
 ``` csharp
 string GenerateClassWithFunction(string code, ICollection<string> extraDllNamespaces, RunOption runOption = null)
 ```
+**DllHelper**
+``` csharp
+FileSystemInfo[] GetDllInfos(string path)
+```
 ``` csharp
 ICollection<string> GetExtraDllNamespaces(RunOption runOption)
 ```
+``` csharp
+void GetExtraDllsAndAssemblies(RunOption runOption, List<string> dlls, List<Assembly> extraAssemblies)
+```
+**DllHelper**
 ``` csharp
 InstanceObject GetInstanceObject(string code, RunOption runOption = null)
 ```
