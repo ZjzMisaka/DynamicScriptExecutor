@@ -35,7 +35,7 @@ public static class Run
 }
 ";
 RunOption runOptionStatic = new RunOption() { IsStatic = true };
-runOptionStatic.InstanceObject = ScriptRunner.GetInstanceObject(codeStatic, runOptionStatic);
+runOptionStatic.InstanceObject = DllHelper.GetInstanceObject(codeStatic, runOptionStatic);
 ScriptRunner.Run(runOptionStatic); // Hello World Static: 1
 ScriptRunner.Run(runOptionStatic); // Hello World Static: 2
 ```
