@@ -94,8 +94,6 @@ namespace RoslynScriptRunner
                 if (breakError)
                 {
                     SyntaxErrorException e = new SyntaxErrorException(errorStr);
-                    e.Data.Add("Type", "SyntaxError");
-                    e.Data.Add("Value", errorStr);
                     throw e;
                 }
 
