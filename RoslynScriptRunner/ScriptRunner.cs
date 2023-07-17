@@ -38,7 +38,7 @@ namespace RoslynScriptRunner
             }
             else
             {
-                instanceObject = GetInstanceObject(codeList, runOptionCopied);
+                instanceObject = InstanceObject.GetInstanceObject(codeList, runOptionCopied);
             }
 
             runOptionCopied.InstanceObject = instanceObject;
@@ -117,7 +117,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            InstanceObject functionWrapperInstanceObject = GetInstanceObject(code, runOption);
+            InstanceObject functionWrapperInstanceObject = InstanceObject.GetInstanceObject(code, runOption);
             newRunOption.InstanceObject = functionWrapperInstanceObject;
 
             return GenerateFunc<TResult>(newRunOption);
@@ -146,7 +146,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            newRunOption.InstanceObject = InstanceObject.GetInstanceObject(code, runOption);
             return GenerateFunc<T1, TResult>(newRunOption);
         }
 
@@ -173,7 +173,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            newRunOption.InstanceObject = InstanceObject.GetInstanceObject(code, runOption);
             return GenerateFunc<T1, T2, TResult>(newRunOption);
         }
 
@@ -200,7 +200,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            newRunOption.InstanceObject = InstanceObject.GetInstanceObject(code, runOption);
             return GenerateFunc<T1, T2, T3, TResult>(newRunOption);
         }
 
@@ -227,7 +227,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            newRunOption.InstanceObject = InstanceObject.GetInstanceObject(code, runOption);
             return GenerateFunc<T1, T2, T3, T4, TResult>(newRunOption);
         }
 
@@ -254,7 +254,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            newRunOption.InstanceObject = InstanceObject.GetInstanceObject(code, runOption);
             return GenerateFunc<T1, T2, T3, T4, T5, TResult>(newRunOption);
         }
 
@@ -281,7 +281,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            newRunOption.InstanceObject = InstanceObject.GetInstanceObject(code, runOption);
             return GenerateFunc<T1, T2, T3, T4, T5, T6, TResult>(newRunOption);
         }
 
@@ -308,7 +308,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            newRunOption.InstanceObject = InstanceObject.GetInstanceObject(code, runOption);
             return GenerateFunc<T1, T2, T3, T4, T5, T6, T7, TResult>(newRunOption);
         }
 
@@ -335,7 +335,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            newRunOption.InstanceObject = InstanceObject.GetInstanceObject(code, runOption);
             return GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(newRunOption);
         }
 
@@ -362,7 +362,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            newRunOption.InstanceObject = InstanceObject.GetInstanceObject(code, runOption);
             return GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(newRunOption);
         }
 
@@ -389,7 +389,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = GetInstanceObject(code, runOption);
+            newRunOption.InstanceObject = InstanceObject.GetInstanceObject(code, runOption);
             return GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(newRunOption);
         }
 
@@ -421,7 +421,7 @@ namespace RoslynScriptRunner
 
             if (runOption.AddExtraUsingWhenGeneratingClass)
             {
-                return GenerateClassWithFunction(code, GetExtraDllNamespaces(runOption), runOption);
+                return GenerateClassWithFunction(code, DllHelper.GetExtraDllNamespaces(runOption), runOption);
             }
             else
             {
@@ -495,264 +495,10 @@ public class Run
 ";
         }
 
-        public static ICollection<string> GetExtraDllNamespaces(RunOption runOption)
-        {
-            if (!runOption.AddExtraUsingWhenGeneratingClass)
-            { 
-                return new HashSet<string>();
-            }
+        
 
-            List<Assembly> extraAssemblies = new List<Assembly>();
-            GetExtraDlls(runOption, null, extraAssemblies);
-            HashSet<string> result = new HashSet<string>();
-            foreach (Assembly assembly in extraAssemblies)
-            {
-                foreach (Type type in assembly.GetTypes())
-                {
-                    if (!result.Contains(type.Namespace))
-                    {
-                        result.Add(type.Namespace);
-                    }
-                }
-            }
-            return result;
-        }
+        
 
-        private static void GetExtraDlls(RunOption runOption, List<string> dlls, List<Assembly> extraAssemblies)
-        {
-            // Dll文件夹中的dll
-            if (runOption.ExtraDllFolderList != null)
-            {
-                foreach (string extraDllFolder in runOption.ExtraDllFolderList)
-                {
-                    FileSystemInfo[] dllInfos = FileHelper.GetDllInfos(extraDllFolder);
-                    if (dllInfos != null && dllInfos.Count() != 0)
-                    {
-                        foreach (FileSystemInfo dllInfo in dllInfos)
-                        {
-                            if (dlls != null)
-                            {
-                                dlls.Add(dllInfo.FullName);
-                            }
-                            Assembly assembly = Assembly.LoadFrom(dllInfo.FullName);
-                            if (extraAssemblies != null)
-                            {
-                                extraAssemblies.Add(assembly);
-                            }
-                        }
-                    }
-                }
-            }
-
-            // 单独的dll
-            if (runOption.ExtraDllFileList != null)
-            {
-                foreach (string extraDllFile in runOption.ExtraDllFileList)
-                {
-                    if (dlls != null)
-                    {
-                        dlls.Add(extraDllFile);
-                    }
-                    Assembly assembly = Assembly.LoadFrom(extraDllFile);
-                    if (extraAssemblies != null)
-                    {
-                        extraAssemblies.Add(assembly);
-                    }
-                }
-            }
-        }
-
-        public static InstanceObject GetInstanceObject(string code, RunOption runOption = null)
-        {
-            return GetInstanceObject(new string[] { code }, runOption, null);
-        }
-
-        public static InstanceObject GetInstanceObject(ICollection<string> codeList, RunOption runOption = null)
-        {
-            return GetInstanceObject(codeList, runOption, null);
-        }
-
-        private static InstanceObject GetInstanceObject(ICollection<string> codeList, RunOption runOption = null, List<string> needDelDll = null)
-        {
-            List<string> dlls = new List<string>();
-
-            if (runOption == null)
-            {
-                runOption = new RunOption();
-            }
-
-            GetExtraDlls(runOption, dlls, null);
-
-            // 根目录的Dll
-            FileSystemInfo[] dllInfosBase = FileHelper.GetDllInfos(Environment.CurrentDirectory);
-            foreach (FileSystemInfo dllInfo in dllInfosBase)
-            {
-                if (dllInfo.Extension == ".dll" && !dlls.Contains(dllInfo.Name))
-                {
-                    dlls.Add(dllInfo.Name);
-                }
-            }
-
-            string assemblyLocation = typeof(object).Assembly.Location;
-            FileSystemInfo[] dllInfosAssembly = FileHelper.GetDllInfos(Path.GetDirectoryName(assemblyLocation));
-            foreach (FileSystemInfo dllInfo in dllInfosAssembly)
-            {
-                if (dllInfo.Extension == ".dll" && !dlls.Contains(dllInfo.Name) && !dllInfo.Name.StartsWith("api"))
-                {
-                    dlls.Add(dllInfo.Name);
-                }
-            }
-
-            string errorStr = "";
-            bool breakError = false;
-            SyntaxTree[] syntaxTreeArray = new SyntaxTree[codeList.Count];
-            int index = 0;
-            foreach (string code in codeList)
-            {
-                SyntaxTree syntaxTree;
-                if (runOption.ScriptLanguage == ScriptLanguage.VisualBasic)
-                {
-                    syntaxTree = VisualBasicSyntaxTree.ParseText(code);
-                }
-                else
-                {
-                    syntaxTree = CSharpSyntaxTree.ParseText(code);
-                }
-                
-                syntaxTreeArray[index] = syntaxTree;
-
-                IEnumerable<Diagnostic> diagnostics = syntaxTree.GetDiagnostics();
-
-                foreach (Diagnostic diagnostic in diagnostics)
-                {
-                    breakError = true;
-                    errorStr = $"{errorStr}\n    {diagnostic.ToString()}";
-                }
-                if (breakError)
-                {
-                    Exception e = new Exception(errorStr);
-                    e.Data.Add("Type", "SyntaxError");
-                    e.Data.Add("Value", errorStr);
-                    throw e;
-                }
-
-                ++index;
-            }
-
-            string assemblyName = Path.GetRandomFileName();
-            MetadataReference[] references = new MetadataReference[]
-            {
-                MetadataReference.CreateFromFile(typeof(object).Assembly.Location),
-            };
-
-            if (needDelDll != null)
-            {
-                foreach (string errorDll in needDelDll)
-                {
-                    dlls.Remove(errorDll);
-                }
-            }
-
-            // 循环遍历每个 DLL，并将其包含在编译中
-            foreach (string dllName in dlls)
-            {
-                if (File.Exists(dllName))
-                {
-                    references = references.Append(MetadataReference.CreateFromFile(dllName)).ToArray();
-                }
-                else
-                {
-                    references = references.Append(MetadataReference.CreateFromFile(assemblyLocation.Replace("System.Private.CoreLib.dll", dllName))).ToArray();
-                }
-            }
-
-            Compilation compilation;
-            if (runOption.ScriptLanguage == ScriptLanguage.VisualBasic)
-            {
-                VisualBasicCompilationOptions options = new VisualBasicCompilationOptions(
-                    OutputKind.DynamicallyLinkedLibrary,
-                    platform: Platform.AnyCpu
-                );
-                compilation = VisualBasicCompilation.Create(
-                    assemblyName,
-                    syntaxTrees: syntaxTreeArray,
-                    references: references,
-                    options: options
-                );
-            }
-            else
-            {
-                CSharpCompilationOptions options = new CSharpCompilationOptions(
-                    OutputKind.DynamicallyLinkedLibrary,
-                    platform: Platform.AnyCpu
-                );
-                compilation = CSharpCompilation.Create(
-                    assemblyName,
-                    syntaxTrees: syntaxTreeArray,
-                    references: references,
-                    options: options
-                );
-            }
-
-            List<string> errDllList = new List<string>();
-            MemoryStream ms = new MemoryStream();
-            var result = compilation.Emit(ms);
-            if (!result.Success)
-            {
-                errorStr = "";
-
-                foreach (Diagnostic diagnostic in result.Diagnostics)
-                {
-                    if (diagnostic.Id == "CS0009" || diagnostic.Id == "BC31519")
-                    {
-                        string dll = diagnostic.GetMessage();
-                        dll = dll.Substring(dll.IndexOf("'") + 1);
-                        dll = dll.Substring(0, dll.IndexOf("'"));
-                        errDllList.Add(Path.GetFileName(dll));
-                    }
-                    else
-                    {
-                        breakError = true;
-                        errorStr = $"{errorStr}\n    {diagnostic.ToString()}";
-                    }
-                }
-
-                if (breakError)
-                {
-                    Exception e = new Exception(errorStr);
-                    e.Data.Add("Type", "Error");
-                    e.Data.Add("Value", errorStr);
-                    throw e;
-                }
-
-                if (errDllList.Count > 0)
-                {
-                    return GetInstanceObject(codeList, runOption, errDllList);
-                }
-            }
-            else
-            {
-                ms.Seek(0, SeekOrigin.Begin);
-                Assembly assembly = Assembly.Load(ms.ToArray());
-                Type type = assembly.GetType(runOption.ClassName);
-                if (type == null) 
-                {
-                    Exception e = new Exception($"Class not found: {runOption.ClassName}");
-                    e.Data.Add("Type", "ClassNotFound");
-                    e.Data.Add("Value", runOption.ClassName);
-                    throw e;
-                }
-
-                object obj = null;
-                if (!runOption.IsStatic)
-                {
-                    obj = Activator.CreateInstance(type);
-                }
-                
-                return new InstanceObject(type, obj);
-            }
-
-            return null;
-        }
+        
     }
 }

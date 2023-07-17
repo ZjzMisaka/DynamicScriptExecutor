@@ -57,7 +57,7 @@ Console.WriteLine(codeDrawRes);
  * InstanceObject test
  */
 RunOption runOptionHelloWorld = new RunOption();
-runOptionHelloWorld.InstanceObject = ScriptRunner.GetInstanceObject(codeHelloWorld);
+runOptionHelloWorld.InstanceObject = InstanceObject.GetInstanceObject(codeHelloWorld);
 ScriptRunner.Run(runOptionHelloWorld);
 
 
@@ -115,7 +115,7 @@ ScriptRunner.Run(new string[] { codeMain, codeExtra });
  * Dependency + InstanceObject test
  */
 RunOption runOptionMainExtra = new RunOption();
-runOptionMainExtra.InstanceObject = ScriptRunner.GetInstanceObject(new List<string> { codeMain, codeExtra });
+runOptionMainExtra.InstanceObject = InstanceObject.GetInstanceObject(new List<string> { codeMain, codeExtra });
 ScriptRunner.Run(runOptionMainExtra);
 
 /**
@@ -164,7 +164,7 @@ public static class Run
 }
 ";
 RunOption runOptionStatic = new RunOption() { IsStatic = true };
-runOptionStatic.InstanceObject = ScriptRunner.GetInstanceObject(codeStatic, runOptionStatic);
+runOptionStatic.InstanceObject = InstanceObject.GetInstanceObject(codeStatic, runOptionStatic);
 ScriptRunner.Run(runOptionStatic);
 ScriptRunner.Run(runOptionStatic);
 
@@ -270,7 +270,7 @@ public static class Run
 }
 ";
 RunOption runOptionDelegateStatic = new RunOption() { IsStatic = true };
-runOptionStatic.InstanceObject = ScriptRunner.GetInstanceObject(codeDelegateStatic, runOptionDelegateStatic);
+runOptionStatic.InstanceObject = InstanceObject.GetInstanceObject(codeDelegateStatic, runOptionDelegateStatic);
 runOptionStatic.MethodName = "DelegateStaticFunc";
 var DelegateStaticFunc = ScriptRunner.GenerateFunc<object>(runOptionStatic);
 DelegateStaticFunc(null);
