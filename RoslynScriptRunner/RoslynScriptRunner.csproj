@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
+    <PackageId>ZjzMisaka.RoslynScriptRunner</PackageId>
     <Description>RoslynScriptRunner is a versatile C#/VB.NET script execution library based on the Roslyn compiler, enabling dynamic runtime execution of C#/VB.NET code snippets without the need for pre-compilation. </Description>
     <PackageTags>csharp;script;runtime;roslyn;dotnet;script-runner;compilation;code-snippets;dynamic-execution;vbnet;vb-net;visual-basic-net;</PackageTags>
     <Authors>ZjzMisaka</Authors>
