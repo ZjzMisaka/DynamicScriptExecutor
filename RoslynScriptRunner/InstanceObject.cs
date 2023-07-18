@@ -16,26 +16,20 @@ namespace RoslynScriptRunner
         private Type type;
         private object instance;
 
-        public InstanceObject(Type type, object instance)
-        {
-            this.Type = type;
-            this.Instance = instance;
-        }
-
         public Type Type { get => type; set => type = value; }
         public object Instance { get => instance; set => instance = value; }
 
-        public static InstanceObject Get(string code, RunOption runOption = null)
+        public InstanceObject(string code, RunOption runOption = null)
         {
-            return Get(new string[] { code }, runOption, null);
+            SetInstanceObject(new string[] { code }, runOption, null);
         }
 
-        public static InstanceObject Get(ICollection<string> codeList, RunOption runOption = null)
+        public InstanceObject(ICollection<string> codeList, RunOption runOption = null)
         {
-            return Get(codeList, runOption, null);
+            SetInstanceObject(codeList, runOption, null);
         }
 
-        private static InstanceObject Get(ICollection<string> codeList, RunOption runOption = null, List<string> needDelDll = null)
+        private void SetInstanceObject(ICollection<string> codeList, RunOption runOption = null, List<string> needDelDll = null)
         {
             List<string> dlls = new List<string>();
 
@@ -185,10 +179,10 @@ namespace RoslynScriptRunner
                     e.Data.Add("Value", errorStr);
                     throw e;
                 }
-
-                if (errDllList.Count > 0)
+                else 
                 {
-                    return Get(codeList, runOption, errDllList);
+                    SetInstanceObject(codeList, runOption, errDllList);
+                    return;
                 }
             }
             else
@@ -208,10 +202,9 @@ namespace RoslynScriptRunner
                     obj = Activator.CreateInstance(type);
                 }
 
-                return new InstanceObject(type, obj);
+                this.Type = type;
+                this.Instance = obj;
             }
-
-            return null;
         }
     }
 }

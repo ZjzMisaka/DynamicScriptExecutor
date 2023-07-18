@@ -38,7 +38,7 @@ namespace RoslynScriptRunner
             }
             else
             {
-                instanceObject = InstanceObject.Get(codeList, runOptionCopied);
+                instanceObject = new InstanceObject(codeList, runOptionCopied);
             }
 
             runOptionCopied.InstanceObject = instanceObject;
@@ -113,7 +113,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            InstanceObject functionWrapperInstanceObject = InstanceObject.Get(code, runOption);
+            InstanceObject functionWrapperInstanceObject = new InstanceObject(code, runOption);
             newRunOption.InstanceObject = functionWrapperInstanceObject;
 
             return GenerateFunc<TResult>(newRunOption);
@@ -142,7 +142,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = InstanceObject.Get(code, runOption);
+            newRunOption.InstanceObject = new InstanceObject(code, runOption);
             return GenerateFunc<T1, TResult>(newRunOption);
         }
 
@@ -169,7 +169,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = InstanceObject.Get(code, runOption);
+            newRunOption.InstanceObject = new InstanceObject(code, runOption);
             return GenerateFunc<T1, T2, TResult>(newRunOption);
         }
 
@@ -196,7 +196,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = InstanceObject.Get(code, runOption);
+            newRunOption.InstanceObject = new InstanceObject(code, runOption);
             return GenerateFunc<T1, T2, T3, TResult>(newRunOption);
         }
 
@@ -223,7 +223,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = InstanceObject.Get(code, runOption);
+            newRunOption.InstanceObject = new InstanceObject(code, runOption);
             return GenerateFunc<T1, T2, T3, T4, TResult>(newRunOption);
         }
 
@@ -250,7 +250,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = InstanceObject.Get(code, runOption);
+            newRunOption.InstanceObject = new InstanceObject(code, runOption);
             return GenerateFunc<T1, T2, T3, T4, T5, TResult>(newRunOption);
         }
 
@@ -277,7 +277,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = InstanceObject.Get(code, runOption);
+            newRunOption.InstanceObject = new InstanceObject(code, runOption);
             return GenerateFunc<T1, T2, T3, T4, T5, T6, TResult>(newRunOption);
         }
 
@@ -304,7 +304,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = InstanceObject.Get(code, runOption);
+            newRunOption.InstanceObject = new InstanceObject(code, runOption);
             return GenerateFunc<T1, T2, T3, T4, T5, T6, T7, TResult>(newRunOption);
         }
 
@@ -331,7 +331,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = InstanceObject.Get(code, runOption);
+            newRunOption.InstanceObject = new InstanceObject(code, runOption);
             return GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(newRunOption);
         }
 
@@ -358,7 +358,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = InstanceObject.Get(code, runOption);
+            newRunOption.InstanceObject = new InstanceObject(code, runOption);
             return GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(newRunOption);
         }
 
@@ -385,7 +385,7 @@ namespace RoslynScriptRunner
 
             RunOption newRunOption = runOption.Copy();
 
-            newRunOption.InstanceObject = InstanceObject.Get(code, runOption);
+            newRunOption.InstanceObject = new InstanceObject(code, runOption);
             return GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(newRunOption);
         }
 

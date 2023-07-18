@@ -19,7 +19,17 @@
         private bool addDefaultUsingWhenGeneratingClass;
         private bool addExtraUsingWhenGeneratingClass;
 
-        public RunOption(object[] paramList = null, ICollection<string> extraDllFolderList = null, ICollection<string> extraDllFileList = null, string methodName = "Main", string className = "Run", InstanceObject instanceObject = null, ScriptLanguage scriptLanguage = ScriptLanguage.CSharp, bool nonPublic = false, bool isStatic = false, bool addDefaultUsingWhenGeneratingClass = true, bool addExtraUsingWhenGeneratingClass = true)
+        public RunOption(object[] paramList = null
+            , ICollection<string> extraDllFolderList = null
+            , ICollection<string> extraDllFileList = null
+            , string methodName = "Main"
+            , string className = "Run"
+            , InstanceObject instanceObject = null
+            , ScriptLanguage scriptLanguage = ScriptLanguage.CSharp
+            , bool nonPublic = false
+            , bool isStatic = false
+            , bool addDefaultUsingWhenGeneratingClass = true
+            , bool addExtraUsingWhenGeneratingClass = true)
         {
             this.paramList = paramList;
             this.extraDllFolderList = extraDllFolderList;
@@ -47,7 +57,7 @@
         public bool AddExtraUsingWhenGeneratingClass { get => addExtraUsingWhenGeneratingClass; set => addExtraUsingWhenGeneratingClass = value; }
 
         public RunOption Copy()
-        { 
+        {
             return new RunOption(this.ParamList, this.ExtraDllFolderList, this.ExtraDllFileList, this.MethodName, this.ClassName, this.InstanceObject, this.ScriptLanguage, this.NonPublic, this.IsStatic, this.addDefaultUsingWhenGeneratingClass, this.addExtraUsingWhenGeneratingClass);
         }
     }
