@@ -3,7 +3,7 @@
 
 [English ReadMe](README.md)
   
-RoslynScriptRunner允许在运行时无需预编译即可执行C#或Visual Basic代码。它支持实例对象，Func委托生成，额外的DLL，灵活的运行选项以及异步功能。
+RoslynScriptRunner允许在运行时无需预编译即可执行C#或Visual Basic代码。它支持状态保持，Func委托生成，额外的DLL，灵活的运行选项以及异步功能。
 
 ### 使用
 RoslynScriptRunner 可以通过 [Nuget 包](https://www.nuget.org/packages/ZjzMisaka.RoslynScriptRunner/) 下载.
