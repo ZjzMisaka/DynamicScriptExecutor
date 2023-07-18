@@ -25,17 +25,17 @@ namespace RoslynScriptRunner
         public Type Type { get => type; set => type = value; }
         public object Instance { get => instance; set => instance = value; }
 
-        public static InstanceObject GetInstanceObject(string code, RunOption runOption = null)
+        public static InstanceObject Get(string code, RunOption runOption = null)
         {
-            return GetInstanceObject(new string[] { code }, runOption, null);
+            return Get(new string[] { code }, runOption, null);
         }
 
-        public static InstanceObject GetInstanceObject(ICollection<string> codeList, RunOption runOption = null)
+        public static InstanceObject Get(ICollection<string> codeList, RunOption runOption = null)
         {
-            return GetInstanceObject(codeList, runOption, null);
+            return Get(codeList, runOption, null);
         }
 
-        private static InstanceObject GetInstanceObject(ICollection<string> codeList, RunOption runOption = null, List<string> needDelDll = null)
+        private static InstanceObject Get(ICollection<string> codeList, RunOption runOption = null, List<string> needDelDll = null)
         {
             List<string> dlls = new List<string>();
 
@@ -188,7 +188,7 @@ namespace RoslynScriptRunner
 
                 if (errDllList.Count > 0)
                 {
-                    return GetInstanceObject(codeList, runOption, errDllList);
+                    return Get(codeList, runOption, errDllList);
                 }
             }
             else

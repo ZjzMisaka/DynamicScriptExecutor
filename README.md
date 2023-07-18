@@ -35,7 +35,7 @@ public static class Run
 }
 ";
 RunOption runOptionStatic = new RunOption() { IsStatic = true };
-runOptionStatic.InstanceObject = DllHelper.GetInstanceObject(codeStatic, runOptionStatic);
+runOptionStatic.InstanceObject = DllHelper.Get(codeStatic, runOptionStatic);
 ScriptRunner.Run(runOptionStatic); // Hello World Static: 1
 ScriptRunner.Run(runOptionStatic); // Hello World Static: 2
 ```
@@ -178,15 +178,12 @@ FileSystemInfo[] GetDllInfos(string path)
 ``` csharp
 ICollection<string> GetExtraDllNamespaces(RunOption runOption)
 ```
+**InstanceObject**
 ``` csharp
-void GetExtraDllsAndAssemblies(RunOption runOption, List<string> dlls, List<Assembly> extraAssemblies)
-```
-**DllHelper**
-``` csharp
-InstanceObject GetInstanceObject(string code, RunOption runOption = null)
+InstanceObject Get(string code, RunOption runOption = null)
 ```
 ``` csharp
-InstanceObject GetInstanceObject(ICollection<string> codeList, RunOption runOption = null)
+InstanceObject Get(ICollection<string> codeList, RunOption runOption = null)
 ```
 
 #### Options

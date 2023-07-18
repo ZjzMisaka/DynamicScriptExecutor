@@ -46,7 +46,7 @@ namespace RoslynScriptRunner
             return result;
         }
 
-        public static void GetExtraDllsAndAssemblies(RunOption runOption, List<string> dlls, List<Assembly> extraAssemblies)
+        internal static void GetExtraDllsAndAssemblies(RunOption runOption, List<string> dlls, List<Assembly> extraAssemblies)
         {
             // Dll文件夹中的dll
             if (runOption.ExtraDllFolderList != null)
@@ -62,9 +62,10 @@ namespace RoslynScriptRunner
                             {
                                 dlls.Add(dllInfo.FullName);
                             }
-                            Assembly assembly = Assembly.LoadFrom(dllInfo.FullName);
+                            
                             if (extraAssemblies != null)
                             {
+                                Assembly assembly = Assembly.LoadFrom(dllInfo.FullName);
                                 extraAssemblies.Add(assembly);
                             }
                         }
@@ -81,9 +82,10 @@ namespace RoslynScriptRunner
                     {
                         dlls.Add(extraDllFile);
                     }
-                    Assembly assembly = Assembly.LoadFrom(extraDllFile);
+                    
                     if (extraAssemblies != null)
                     {
+                        Assembly assembly = Assembly.LoadFrom(extraDllFile);
                         extraAssemblies.Add(assembly);
                     }
                 }
