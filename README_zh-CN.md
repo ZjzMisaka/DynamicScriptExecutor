@@ -176,7 +176,7 @@ FileSystemInfo[] GetDllInfos(string path)
 ICollection<string> GetExtraDllNamespaces(RunOption runOption)
 ```
 
-#### InstanceObject
+#### 实例对象
 **InstanceObject**
 ``` csharp
 InstanceObject(string code, RunOption runOption = null)
@@ -185,7 +185,7 @@ InstanceObject(string code, RunOption runOption = null)
 InstanceObject(ICollection<string> codeList, RunOption runOption = null)
 ```
 
-#### Options
+#### 选项
 **RunOption**
 ``` csharp
 RunOption(object[] paramList = null
@@ -217,7 +217,7 @@ bool addExtraUsingWhenGeneratingClass;
 - CSharp
 - VisualBasic
 
-**Useage**
+**示例**
 ``` csharp
 RoslynScriptRunner.RunOption runOption = new RoslynScriptRunner.RunOption(...);
 RoslynScriptRunner.ScriptRunner.Run(code, runOption);
