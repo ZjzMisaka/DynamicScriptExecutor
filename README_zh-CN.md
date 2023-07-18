@@ -1,14 +1,14 @@
 # RoslynScriptRunner
 <img src="https://www.nuget.org/Content/gallery/img/logo-header.svg?sanitize=true" height="30px">
 
-[中文 ReadMe](README_zh-CN.md)
+[English ReadMe](README.md)
   
-RoslynScriptRunner enables execution of C#/VB.NET code at runtime, without the need for pre-compilation. It features support for instance objects, Func delegate generation, additional DLLs, flexible run options, and asynchronous capabilities.
+RoslynScriptRunner允许在运行时无需预编译即可执行C#或Visual Basic代码。它支持实例对象，Func委托生成，额外的DLL，灵活的运行选项以及异步功能。
 
-### Download
-RoslynScriptRunner is available as [Nuget Package](https://www.nuget.org/packages/ZjzMisaka.RoslynScriptRunner/) now.
+### 使用
+RoslynScriptRunner 可以通过 [Nuget 包](https://www.nuget.org/packages/ZjzMisaka.RoslynScriptRunner/) 下载.
 
-### Getting started
+### 入门
 **Hello World**
 ``` csharp
 string codeHelloWorld = @"
@@ -23,7 +23,7 @@ class Run
 ";
 RoslynScriptRunner.ScriptRunner.Run(codeHelloWorld); // Hello World
 ```
-**If you want to hold an InstanceObject**
+**如果需要保持InstanceObject**
 ``` csharp
 string codeStatic = @"
 using System;
@@ -41,7 +41,7 @@ runOptionStatic.InstanceObject = new InstanceObject(codeStatic, runOptionStatic)
 ScriptRunner.Run(runOptionStatic); // Hello World Static: 1
 ScriptRunner.Run(runOptionStatic); // Hello World Static: 2
 ```
-**If you want to create delegate**
+**如果需要创建委托**
 ``` csharp
 string codeDelegateHelloWorld = @"
 using System;
@@ -56,7 +56,7 @@ public class Run
 var DelegateHelloWorldFunc = RoslynScriptRunner.ScriptRunner.GenerateFunc<string>(codeDelegateHelloWorld, new RunOption() { MethodName = "DelegateHelloWorldFunc" });
 Console.WriteLine(DelegateHelloWorldFunc(null)); // Delegate Hello World
 ```
-**If you only want to write functions and don't want to write using statement**
+**如果想单独写一个函数并且懒得写using语句**
 ``` csharp
 string codeGenerateClassWithFunction = @"
 public ExternalResultClass DoSth()
