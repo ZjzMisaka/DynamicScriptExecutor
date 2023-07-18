@@ -35,7 +35,7 @@ public static class Run
 }
 ";
 RunOption runOptionStatic = new RunOption() { IsStatic = true };
-runOptionStatic.InstanceObject = DllHelper.Get(codeStatic, runOptionStatic);
+runOptionStatic.InstanceObject = new InstanceObject(codeStatic, runOptionStatic);
 ScriptRunner.Run(runOptionStatic); // Hello World Static: 1
 ScriptRunner.Run(runOptionStatic); // Hello World Static: 2
 ```
@@ -57,20 +57,15 @@ Console.WriteLine(DelegateHelloWorldFunc(null)); // Delegate Hello World
 **If you only want to write functions and don't want to write using statement**
 ``` csharp
 string codeGenerateClassWithFunction = @"
-public int GenerateClassWithFunctionTestFunc()
+public ExternalResultClass DoSth()
 {
-    List<DiffRes> res = DiffTool.Diff(
-        new List<string>() { ""11111111"", ""2222222"",  ""3333333"",  ""4444444"",  ""555"", ""666"", ""777"", ""888"", """", ""999"", ""99"", ""88"", ""77"" }, 
-        new List<string>() { ""11111111"", ""22222222"", ""33333333"", ""44444444"",                             """", ""666"", ""99"", ""88"", ""77"" });
-    List<GroupedDiffRes> groupedDiffRes = DiffTool.GetGroupedResult(res);
-    return groupedDiffRes.Count;
+    return ExternalClass.DoSth();
 }
 ";
 RunOption generateClassWithFunctionOption = new RunOption();
-generateClassWithFunctionOption.ExtraDllFileList = new List<string> { "Diff.dll" };
-generateClassWithFunctionOption.MethodName = "GenerateClassWithFunctionTestFunc";
+generateClassWithFunctionOption.ExtraDllFileList = new List<string> { "ExternalDll.dll" };
+generateClassWithFunctionOption.MethodName = "DoSth";
 string codeGeneratedClassWithFunction = ScriptRunner.GenerateClassWithFunction(codeGenerateClassWithFunction, generateClassWithFunctionOption);
-Console.WriteLine(ScriptRunner.Run(codeGeneratedClassWithFunction, generateClassWithFunctionOption)); // 7
 ```
 
 #### API
@@ -178,16 +173,31 @@ FileSystemInfo[] GetDllInfos(string path)
 ``` csharp
 ICollection<string> GetExtraDllNamespaces(RunOption runOption)
 ```
+
+#### InstanceObject
 **InstanceObject**
 ``` csharp
-InstanceObject Get(string code, RunOption runOption = null)
+InstanceObject(string code, RunOption runOption = null)
 ```
 ``` csharp
-InstanceObject Get(ICollection<string> codeList, RunOption runOption = null)
+InstanceObject(ICollection<string> codeList, RunOption runOption = null)
 ```
 
 #### Options
 **RunOption**
+``` csharp
+RunOption(object[] paramList = null
+    , ICollection<string> extraDllFolderList = null
+    , ICollection<string> extraDllFileList = null
+    , string methodName = "Main"
+    , string className = "Run"
+    , InstanceObject instanceObject = null
+    , ScriptLanguage scriptLanguage = ScriptLanguage.CSharp
+    , bool nonPublic = false
+    , bool isStatic = false
+    , bool addDefaultUsingWhenGeneratingClass = true
+    , bool addExtraUsingWhenGeneratingClass = true)
+```
 ``` csharp
 object[] paramList;
 ICollection<string> extraDllFolderList;
