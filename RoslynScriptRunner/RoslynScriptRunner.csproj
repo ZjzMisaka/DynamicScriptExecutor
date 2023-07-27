@@ -5,7 +5,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
     <PackageId>ZjzMisaka.RoslynScriptRunner</PackageId>
-    <Description>RoslynScriptRunner enables execution of C#/VB.NET script code at runtime, without the need for pre-compilation. It features support for state persistence, Func delegate generation, additional DLLs, flexible run options, and asynchronous capabilities. </Description>
+    <Description>Enables runtime execution of C#/VB.NET scripts without pre-compilation. Supports Func delegate generation, DLLs, flexible run options, and async capabilities. </Description>
     <PackageTags>csharp;script;runtime;roslyn;dotnet;script-runner;compilation;code-snippets;dynamic-execution;vbnet;vb-net;visual-basic-net;</PackageTags>
     <Authors>ZjzMisaka</Authors>
     <RepositoryUrl>https://github.com/ZjzMisaka/RoslynScriptRunner</RepositoryUrl>
@@ -16,6 +16,7 @@
   <ItemGroup>
     <None Include="..\LICENSE" Pack="true" PackagePath="\" />
     <None Include="..\README.md" Pack="true" PackagePath="\" />
+    <None Include="..\README_zh-CN.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
