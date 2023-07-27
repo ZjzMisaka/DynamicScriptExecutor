@@ -3,7 +3,7 @@
 
 [中文 ReadMe](README_zh-CN.md)
   
-RoslynScriptRunner enables execution of C#/VB.NET code at runtime, without the need for pre-compilation. It features support for state persistence, Func delegate generation, additional DLLs, flexible run options, and asynchronous capabilities.
+RoslynScriptRunner enables execution of C#/VB.NET script code at runtime, without the need for pre-compilation. It features support for state persistence, Func delegate generation, additional DLLs, flexible run options, and asynchronous capabilities.
 
 ### Download
 RoslynScriptRunner is available as [Nuget Package](https://www.nuget.org/packages/ZjzMisaka.RoslynScriptRunner/) now.
