@@ -59,7 +59,7 @@ Console.WriteLine(DelegateHelloWorldFunc(null)); // Delegate Hello World
 **If you only want to write functions and don't want to write using statement**
 ``` csharp
 string codeGenerateClassWithFunction = @"
-public class ExternalResultClass
+public ExternalResultClass DoSth()
 {
     return ExternalClass.DoSth();
 }

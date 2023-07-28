@@ -59,7 +59,7 @@ Console.WriteLine(DelegateHelloWorldFunc(null)); // Delegate Hello World
 **如果想单独写一个函数并且懒得写using语句**
 ``` csharp
 string codeGenerateClassWithFunction = @"
-public class ExternalResultClass
+public ExternalResultClass DoSth()
 {
     return ExternalClass.DoSth();
 }
