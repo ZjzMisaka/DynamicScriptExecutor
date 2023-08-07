@@ -58,6 +58,8 @@ namespace RoslynScriptRunner
                     {
                         foreach (FileSystemInfo dllInfo in dllInfos)
                         {
+                            Assembly assembly = Assembly.LoadFrom(dllInfo.FullName);
+
                             if (dlls != null)
                             {
                                 dlls.Add(dllInfo.FullName);
@@ -65,7 +67,6 @@ namespace RoslynScriptRunner
                             
                             if (extraAssemblies != null)
                             {
-                                Assembly assembly = Assembly.LoadFrom(dllInfo.FullName);
                                 extraAssemblies.Add(assembly);
                             }
                         }
