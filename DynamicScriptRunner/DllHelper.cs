@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RoslynScriptRunner
+namespace DynamicScriptRunner
 {
     public class DllHelper
     {

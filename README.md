@@ -1,4 +1,4 @@
-# RoslynScriptRunner
+# DynamicScriptRunner
 <img src="https://www.nuget.org/Content/gallery/img/logo-header.svg?sanitize=true" height="30px">
 
 [中文 ReadMe](README_zh-CN.md)
@@ -6,7 +6,7 @@
 Enables runtime execution of C#/VB.NET scripts without pre-compilation. Supports Func delegate generation, DLLs, flexible run options, and async capabilities.
 
 ### Download
-RoslynScriptRunner is available as [Nuget Package](https://www.nuget.org/packages/ZjzMisaka.RoslynScriptRunner/) now.
+DynamicScriptRunner is available as [Nuget Package](https://www.nuget.org/packages/DynamicScriptRunner/) now.
 
 ### Getting started
 **Hello World**
@@ -21,7 +21,7 @@ class Run
     }
 }
 ";
-RoslynScriptRunner.ScriptRunner.Run(codeHelloWorld); // Hello World
+DynamicScriptRunner.ScriptRunner.Run(codeHelloWorld); // Hello World
 ```
 **If you want to hold an InstanceObject**
 ``` csharp
@@ -53,7 +53,7 @@ public class Run
     }
 }
 ";
-var DelegateHelloWorldFunc = RoslynScriptRunner.ScriptRunner.GenerateFunc<string>(codeDelegateHelloWorld, new RunOption() { MethodName = "DelegateHelloWorldFunc" });
+var DelegateHelloWorldFunc = DynamicScriptRunner.ScriptRunner.GenerateFunc<string>(codeDelegateHelloWorld, new RunOption() { MethodName = "DelegateHelloWorldFunc" });
 Console.WriteLine(DelegateHelloWorldFunc(null)); // Delegate Hello World
 ```
 **If you only want to write functions and don't want to write using statement**
@@ -219,6 +219,6 @@ bool addExtraUsingWhenGeneratingClass;
 
 **Useage**
 ``` csharp
-RoslynScriptRunner.RunOption runOption = new RoslynScriptRunner.RunOption(...);
-RoslynScriptRunner.ScriptRunner.Run(code, runOption);
+DynamicScriptRunner.RunOption runOption = new DynamicScriptRunner.RunOption(...);
+DynamicScriptRunner.ScriptRunner.Run(code, runOption);
 ```

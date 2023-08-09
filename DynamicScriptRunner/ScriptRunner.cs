@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Dynamic;
 using System.Reflection;
 
-namespace RoslynScriptRunner
+namespace DynamicScriptRunner
 {
     public class ScriptRunner
     {

@@ -1,4 +1,4 @@
-﻿namespace RoslynScriptRunner
+﻿namespace DynamicScriptRunner
 {
     public enum ScriptLanguage
     {

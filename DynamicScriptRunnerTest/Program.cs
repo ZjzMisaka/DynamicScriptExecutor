@@ -1,4 +1,4 @@
-﻿using RoslynScriptRunner;
+﻿using DynamicScriptRunner;
 
 /**
  * HelloWorld test

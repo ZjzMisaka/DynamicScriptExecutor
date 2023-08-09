@@ -1,4 +1,4 @@
-# RoslynScriptRunner
+# DynamicScriptRunner
 <img src="https://www.nuget.org/Content/gallery/img/logo-header.svg?sanitize=true" height="30px">
 
 [English ReadMe](README.md)
@@ -6,7 +6,7 @@
 运行时执行C#/VB.NET脚本而无需预编译。支持Func委托生成、DLLs、灵活的运行选项和异步功能等功能。
 
 ### 使用
-RoslynScriptRunner 可以通过 [Nuget 包](https://www.nuget.org/packages/ZjzMisaka.RoslynScriptRunner/) 下载.
+DynamicScriptRunner 可以通过 [Nuget 包](https://www.nuget.org/packages/ZjzMisaka.DynamicScriptRunner/) 下载.
 
 ### 入门
 **Hello World**
@@ -21,7 +21,7 @@ class Run
     }
 }
 ";
-RoslynScriptRunner.ScriptRunner.Run(codeHelloWorld); // Hello World
+DynamicScriptRunner.ScriptRunner.Run(codeHelloWorld); // Hello World
 ```
 **如果需要保持InstanceObject**
 ``` csharp
@@ -53,7 +53,7 @@ public class Run
     }
 }
 ";
-var DelegateHelloWorldFunc = RoslynScriptRunner.ScriptRunner.GenerateFunc<string>(codeDelegateHelloWorld, new RunOption() { MethodName = "DelegateHelloWorldFunc" });
+var DelegateHelloWorldFunc = DynamicScriptRunner.ScriptRunner.GenerateFunc<string>(codeDelegateHelloWorld, new RunOption() { MethodName = "DelegateHelloWorldFunc" });
 Console.WriteLine(DelegateHelloWorldFunc(null)); // Delegate Hello World
 ```
 **如果想单独写一个函数并且懒得写using语句**
@@ -219,6 +219,6 @@ bool addExtraUsingWhenGeneratingClass;
 
 **示例**
 ``` csharp
-RoslynScriptRunner.RunOption runOption = new RoslynScriptRunner.RunOption(...);
-RoslynScriptRunner.ScriptRunner.Run(code, runOption);
+DynamicScriptRunner.RunOption runOption = new DynamicScriptRunner.RunOption(...);
+DynamicScriptRunner.ScriptRunner.Run(code, runOption);
 ```
