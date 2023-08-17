@@ -1,4 +1,4 @@
-# DynamicScriptRunner
+# DynamicScriptExecutor
 <img src="https://www.nuget.org/Content/gallery/img/logo-header.svg?sanitize=true" height="30px">
 
 [English ReadMe](README.md)
@@ -6,14 +6,14 @@
 运行时执行C#/VB.NET脚本而无需预编译。支持Func委托生成、DLLs、灵活的运行选项和异步功能等功能。
 
 ### 使用
-DynamicScriptRunner 可以通过 [Nuget 包](https://www.nuget.org/packages/ZjzMisaka.DynamicScriptRunner/) 下载.
+DynamicScriptExecutor 可以通过 [Nuget 包](https://www.nuget.org/packages/ZjzMisaka.DynamicScriptExecutor/) 下载.
 
 ### 入门
 **Hello World**
 ``` csharp
 string codeHelloWorld = @"
 using System;
-class Run
+class Exec
 {
     public void Main()
     {
@@ -21,13 +21,13 @@ class Run
     }
 }
 ";
-DynamicScriptRunner.ScriptRunner.Run(codeHelloWorld); // Hello World
+DynamicScriptExecutor.ScriptExecutor.Exec(codeHelloWorld); // Hello World
 ```
 **如果需要保持InstanceObject**
 ``` csharp
 string codeStatic = @"
 using System;
-public static class Run
+public static class Exec
 {
     public static int count = 1;
     public static void Main()
@@ -36,16 +36,16 @@ public static class Run
     }
 }
 ";
-RunOption runOptionStatic = new RunOption() { IsStatic = true };
-runOptionStatic.InstanceObject = new InstanceObject(codeStatic, runOptionStatic);
-ScriptRunner.Run(runOptionStatic); // Hello World Static: 1
-ScriptRunner.Run(runOptionStatic); // Hello World Static: 2
+ExecOption execOptionStatic = new ExecOption() { IsStatic = true };
+execOptionStatic.InstanceObject = new InstanceObject(codeStatic, execOptionStatic);
+ScriptExecutor.Exec(execOptionStatic); // Hello World Static: 1
+ScriptExecutor.Exec(execOptionStatic); // Hello World Static: 2
 ```
 **如果需要创建委托**
 ``` csharp
 string codeDelegateHelloWorld = @"
 using System;
-public class Run
+public class Exec
 {
     public string DelegateHelloWorldFunc()
     {
@@ -53,7 +53,7 @@ public class Run
     }
 }
 ";
-var DelegateHelloWorldFunc = DynamicScriptRunner.ScriptRunner.GenerateFunc<string>(codeDelegateHelloWorld, new RunOption() { MethodName = "DelegateHelloWorldFunc" });
+var DelegateHelloWorldFunc = DynamicScriptExecutor.ScriptExecutor.GenerateFunc<string>(codeDelegateHelloWorld, new ExecOption() { MethodName = "DelegateHelloWorldFunc" });
 Console.WriteLine(DelegateHelloWorldFunc(null)); // Delegate Hello World
 ```
 **如果想单独写一个函数并且懒得写using语句**
@@ -64,135 +64,135 @@ public ExternalResultClass DoSth()
     return ExternalClass.DoSth();
 }
 ";
-RunOption generateClassWithFunctionOption = new RunOption();
+ExecOption generateClassWithFunctionOption = new ExecOption();
 generateClassWithFunctionOption.ExtraDllFileList = new List<string> { "ExternalDll.dll" };
 generateClassWithFunctionOption.MethodName = "DoSth";
-string codeGeneratedClassWithFunction = ScriptRunner.GenerateClassWithFunction(codeGenerateClassWithFunction, generateClassWithFunctionOption);
+string codeGeneratedClassWithFunction = ScriptExecutor.GenerateClassWithFunction(codeGenerateClassWithFunction, generateClassWithFunctionOption);
 ```
 
 #### API
-**ScriptRunner**
+**ScriptExecutor**
 ``` csharp
-object Run(string code, RunOption runOption = null)
+object Exec(string code, ExecOption execOption = null)
 ```
 ``` csharp
-Task<object> RunAsync(string code, RunOption runOption = null)
+Task<object> ExecAsync(string code, ExecOption execOption = null)
 ```
 ``` csharp
-object Run(ICollection<string> codeList, RunOption runOption = null)
+object Exec(ICollection<string> codeList, ExecOption execOption = null)
 ```
 ``` csharp
-Task<object> RunAsync(ICollection<string> codeList, RunOption runOption = null)
+Task<object> ExecAsync(ICollection<string> codeList, ExecOption execOption = null)
 ```
 ``` csharp
-object Run(RunOption runOption)
+object Exec(ExecOption execOption)
 ```
 ``` csharp
-Task<object> RunAsync(RunOption runOption)
+Task<object> ExecAsync(ExecOption execOption)
 ```
 ``` csharp
-Func<object[], object> GenerateFunc(string code, RunOption runOption = null)
+Func<object[], object> GenerateFunc(string code, ExecOption execOption = null)
 ```
 ``` csharp
-Func<object[], object> GenerateFunc(RunOption runOption)
+Func<object[], object> GenerateFunc(ExecOption execOption)
 ```
 ``` csharp
-Func<object[], TResult> GenerateFunc<TResult>(string code, RunOption runOption = null)
+Func<object[], TResult> GenerateFunc<TResult>(string code, ExecOption execOption = null)
 ```
 ``` csharp
-Func<object[], TResult> GenerateFunc<TResult>(RunOption runOption)
+Func<object[], TResult> GenerateFunc<TResult>(ExecOption execOption)
 ```
 ``` csharp
-Func<T1, TResult> GenerateFunc<T1, TResult>(string code, RunOption runOption = null)
+Func<T1, TResult> GenerateFunc<T1, TResult>(string code, ExecOption execOption = null)
 ```
 ``` csharp
-Func<T1, TResult> GenerateFunc<T1, TResult>(RunOption runOption)
+Func<T1, TResult> GenerateFunc<T1, TResult>(ExecOption execOption)
 ```
 ``` csharp
-Func<T1, T2, TResult> GenerateFunc<T1, T2, TResult>(string code, RunOption runOption = null)
+Func<T1, T2, TResult> GenerateFunc<T1, T2, TResult>(string code, ExecOption execOption = null)
 ```
 ``` csharp
-Func<T1, T2, TResult> GenerateFunc<T1, T2, TResult>(RunOption runOption)
+Func<T1, T2, TResult> GenerateFunc<T1, T2, TResult>(ExecOption execOption)
 ```
 ``` csharp
-Func<T1, T2, T3, TResult> GenerateFunc<T1, T2, T3, TResult>(string code, RunOption runOption = null)
+Func<T1, T2, T3, TResult> GenerateFunc<T1, T2, T3, TResult>(string code, ExecOption execOption = null)
 ```
 ``` csharp
-Func<T1, T2, T3, TResult> GenerateFunc<T1, T2, T3, TResult>(RunOption runOption)
+Func<T1, T2, T3, TResult> GenerateFunc<T1, T2, T3, TResult>(ExecOption execOption)
 ```
 ``` csharp
-Func<T1, T2, T3, T4, TResult> GenerateFunc<T1, T2, T3, T4, TResult>(string code, RunOption runOption = null)
+Func<T1, T2, T3, T4, TResult> GenerateFunc<T1, T2, T3, T4, TResult>(string code, ExecOption execOption = null)
 ```
 ``` csharp
-Func<T1, T2, T3, T4, TResult> GenerateFunc<T1, T2, T3, T4, TResult>(RunOption runOption)
+Func<T1, T2, T3, T4, TResult> GenerateFunc<T1, T2, T3, T4, TResult>(ExecOption execOption)
 ```
 ``` csharp
-Func<T1, T2, T3, T4, T5, TResult> GenerateFunc<T1, T2, T3, T4, T5, TResult>(string code, RunOption runOption = null)
+Func<T1, T2, T3, T4, T5, TResult> GenerateFunc<T1, T2, T3, T4, T5, TResult>(string code, ExecOption execOption = null)
 ```
 ``` csharp
-Func<T1, T2, T3, T4, T5, TResult> GenerateFunc<T1, T2, T3, T4, T5, TResult>(RunOption runOption)
+Func<T1, T2, T3, T4, T5, TResult> GenerateFunc<T1, T2, T3, T4, T5, TResult>(ExecOption execOption)
 ```
 ``` csharp
-Func<T1, T2, T3, T4, T5, T6, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, TResult>(string code, RunOption runOption = null)
+Func<T1, T2, T3, T4, T5, T6, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, TResult>(string code, ExecOption execOption = null)
 ```
 ``` csharp
-Func<T1, T2, T3, T4, T5, T6, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, TResult>(RunOption runOption)
+Func<T1, T2, T3, T4, T5, T6, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, TResult>(ExecOption execOption)
 ```
 ``` csharp
-Func<T1, T2, T3, T4, T5, T6, T7, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, TResult>(string code, RunOption runOption = null)
+Func<T1, T2, T3, T4, T5, T6, T7, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, TResult>(string code, ExecOption execOption = null)
 ```
 ``` csharp
-Func<T1, T2, T3, T4, T5, T6, T7, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, TResult>(RunOption runOption)
+Func<T1, T2, T3, T4, T5, T6, T7, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, TResult>(ExecOption execOption)
 ```
 ``` csharp
-Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(string code, RunOption runOption = null)
+Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(string code, ExecOption execOption = null)
 ```
 ``` csharp
-Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(RunOption runOption)
+Func<T1, T2, T3, T4, T5, T6, T7, T8, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, TResult>(ExecOption execOption)
 ```
 ``` csharp
-Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(string code, RunOption runOption = null)
+Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(string code, ExecOption execOption = null)
 ```
 ``` csharp
-Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(RunOption runOption)
+Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, TResult>(ExecOption execOption)
 ```
 ``` csharp
-Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(string code, RunOption runOption = null)
+Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(string code, ExecOption execOption = null)
 ```
 ``` csharp
-Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(RunOption runOption)
+Func<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult> GenerateFunc<T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, TResult>(ExecOption execOption)
 ```
 ``` csharp
-string GenerateClassWithFunction(string code, RunOption runOption = null)
+string GenerateClassWithFunction(string code, ExecOption execOption = null)
 ```
 ``` csharp
-string GenerateClassWithFunction(string code, ICollection<string> extraDllNamespaces, RunOption runOption = null)
+string GenerateClassWithFunction(string code, ICollection<string> extraDllNamespaces, ExecOption execOption = null)
 ```
 **DllHelper**
 ``` csharp
 FileSystemInfo[] GetDllInfos(string path)
 ```
 ``` csharp
-ICollection<string> GetExtraDllNamespaces(RunOption runOption)
+ICollection<string> GetExtraDllNamespaces(ExecOption execOption)
 ```
 
 #### 实例对象
 **InstanceObject**
 ``` csharp
-InstanceObject(string code, RunOption runOption = null)
+InstanceObject(string code, ExecOption execOption = null)
 ```
 ``` csharp
-InstanceObject(ICollection<string> codeList, RunOption runOption = null)
+InstanceObject(ICollection<string> codeList, ExecOption execOption = null)
 ```
 
 #### 选项
-**RunOption**
+**ExecOption**
 ``` csharp
-RunOption(object[] paramList = null
+ExecOption(object[] paramList = null
     , ICollection<string> extraDllFolderList = null
     , ICollection<string> extraDllFileList = null
     , string methodName = "Main"
-    , string className = "Run"
+    , string className = "Exec"
     , InstanceObject instanceObject = null
     , ScriptLanguage scriptLanguage = ScriptLanguage.CSharp
     , bool nonPublic = false
@@ -219,6 +219,6 @@ bool addExtraUsingWhenGeneratingClass;
 
 **示例**
 ``` csharp
-DynamicScriptRunner.RunOption runOption = new DynamicScriptRunner.RunOption(...);
-DynamicScriptRunner.ScriptRunner.Run(code, runOption);
+DynamicScriptExecutor.ExecOption execOption = new DynamicScriptExecutor.ExecOption(...);
+DynamicScriptExecutor.ScriptExecutor.Exec(code, execOption);
 ```

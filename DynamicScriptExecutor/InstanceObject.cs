@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Data;
 
-namespace DynamicScriptRunner
+namespace DynamicScriptExecutor
 {
     public class InstanceObject
     {
@@ -19,26 +19,26 @@ namespace DynamicScriptRunner
         public Type Type { get => type; set => type = value; }
         public object Instance { get => instance; set => instance = value; }
 
-        public InstanceObject(string code, RunOption runOption = null)
+        public InstanceObject(string code, ExecOption execOption = null)
         {
-            SetInstanceObject(new string[] { code }, runOption, null);
+            SetInstanceObject(new string[] { code }, execOption, null);
         }
 
-        public InstanceObject(ICollection<string> codeList, RunOption runOption = null)
+        public InstanceObject(ICollection<string> codeList, ExecOption execOption = null)
         {
-            SetInstanceObject(codeList, runOption, null);
+            SetInstanceObject(codeList, execOption, null);
         }
 
-        private void SetInstanceObject(ICollection<string> codeList, RunOption runOption = null, List<string> needDelDll = null)
+        private void SetInstanceObject(ICollection<string> codeList, ExecOption execOption = null, List<string> needDelDll = null)
         {
             List<string> dlls = new List<string>();
 
-            if (runOption == null)
+            if (execOption == null)
             {
-                runOption = new RunOption();
+                execOption = new ExecOption();
             }
 
-            DllHelper.GetExtraDllsAndAssemblies(runOption, dlls, null);
+            DllHelper.GetExtraDllsAndAssemblies(execOption, dlls, null);
 
             // 根目录的Dll
             FileSystemInfo[] dllInfosBase = DllHelper.GetDllInfos(Environment.CurrentDirectory);
@@ -67,7 +67,7 @@ namespace DynamicScriptRunner
             foreach (string code in codeList)
             {
                 SyntaxTree syntaxTree;
-                if (runOption.ScriptLanguage == ScriptLanguage.VisualBasic)
+                if (execOption.ScriptLanguage == ScriptLanguage.VisualBasic)
                 {
                     syntaxTree = VisualBasicSyntaxTree.ParseText(code);
                 }
@@ -122,7 +122,7 @@ namespace DynamicScriptRunner
             }
 
             Compilation compilation;
-            if (runOption.ScriptLanguage == ScriptLanguage.VisualBasic)
+            if (execOption.ScriptLanguage == ScriptLanguage.VisualBasic)
             {
                 VisualBasicCompilationOptions options = new VisualBasicCompilationOptions(
                     OutputKind.DynamicallyLinkedLibrary,
@@ -181,7 +181,7 @@ namespace DynamicScriptRunner
                 }
                 else 
                 {
-                    SetInstanceObject(codeList, runOption, errDllList);
+                    SetInstanceObject(codeList, execOption, errDllList);
                     return;
                 }
             }
@@ -189,15 +189,15 @@ namespace DynamicScriptRunner
             {
                 ms.Seek(0, SeekOrigin.Begin);
                 Assembly assembly = Assembly.Load(ms.ToArray());
-                Type type = assembly.GetType(runOption.ClassName);
+                Type type = assembly.GetType(execOption.ClassName);
                 if (type == null)
                 {
-                    TypeLoadException e = new TypeLoadException($"Unable to load type: {runOption.ClassName}");
+                    TypeLoadException e = new TypeLoadException($"Unable to load type: {execOption.ClassName}");
                     throw e;
                 }
 
                 object obj = null;
-                if (!runOption.IsStatic)
+                if (!execOption.IsStatic)
                 {
                     obj = Activator.CreateInstance(type);
                 }

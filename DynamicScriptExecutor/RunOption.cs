@@ -1,11 +1,11 @@
-﻿namespace DynamicScriptRunner
+﻿namespace DynamicScriptExecutor
 {
     public enum ScriptLanguage
     {
         CSharp,
         VisualBasic
     }
-    public class RunOption
+    public class ExecOption
     {
         private object[] paramList;
         private ICollection<string> extraDllFolderList;
@@ -19,11 +19,11 @@
         private bool addDefaultUsingWhenGeneratingClass;
         private bool addExtraUsingWhenGeneratingClass;
 
-        public RunOption(object[] paramList = null
+        public ExecOption(object[] paramList = null
             , ICollection<string> extraDllFolderList = null
             , ICollection<string> extraDllFileList = null
             , string methodName = "Main"
-            , string className = "Run"
+            , string className = "Exec"
             , InstanceObject instanceObject = null
             , ScriptLanguage scriptLanguage = ScriptLanguage.CSharp
             , bool nonPublic = false
@@ -56,9 +56,9 @@
         public bool AddDefaultUsingWhenGeneratingClass { get => addDefaultUsingWhenGeneratingClass; set => addDefaultUsingWhenGeneratingClass = value; }
         public bool AddExtraUsingWhenGeneratingClass { get => addExtraUsingWhenGeneratingClass; set => addExtraUsingWhenGeneratingClass = value; }
 
-        public RunOption Copy()
+        public ExecOption Copy()
         {
-            return new RunOption(this.ParamList, this.ExtraDllFolderList, this.ExtraDllFileList, this.MethodName, this.ClassName, this.InstanceObject, this.ScriptLanguage, this.NonPublic, this.IsStatic, this.addDefaultUsingWhenGeneratingClass, this.addExtraUsingWhenGeneratingClass);
+            return new ExecOption(this.ParamList, this.ExtraDllFolderList, this.ExtraDllFileList, this.MethodName, this.ClassName, this.InstanceObject, this.ScriptLanguage, this.NonPublic, this.IsStatic, this.addDefaultUsingWhenGeneratingClass, this.addExtraUsingWhenGeneratingClass);
         }
     }
 }

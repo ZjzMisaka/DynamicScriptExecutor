@@ -4,11 +4,11 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>disable</Nullable>
-    <PackageId>DynamicScriptRunner</PackageId>
-    <Description>Enables runtime execution of C#/VB.NET scripts without pre-compilation. Supports Func delegate generation, DLLs, flexible run options, and async capabilities. </Description>
-    <PackageTags>csharp;script;runtime;roslyn;dotnet;script-runner;compilation;code-snippets;dynamic-execution;vbnet;vb-net;visual-basic-net;</PackageTags>
+    <PackageId>DynamicScriptExecutor</PackageId>
+    <Description>Enables exectime execution of C#/VB.NET scripts without pre-compilation. Supports Func delegate generation, DLLs, flexible exec options, and async capabilities. </Description>
+    <PackageTags>csharp;script;exectime;roslyn;dotnet;script-executor;compilation;code-snippets;dynamic-execution;vbnet;vb-net;visual-basic-net;</PackageTags>
     <Authors>ZjzMisaka</Authors>
-    <RepositoryUrl>https://github.com/ZjzMisaka/DynamicScriptRunner</RepositoryUrl>
+    <RepositoryUrl>https://github.com/ZjzMisaka/DynamicScriptExecutor</RepositoryUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>

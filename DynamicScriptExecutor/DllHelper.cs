@@ -5,7 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DynamicScriptRunner
+namespace DynamicScriptExecutor
 {
     public class DllHelper
     {
@@ -23,15 +23,15 @@ namespace DynamicScriptRunner
             return dllInfos;
         }
 
-        public static ICollection<string> GetExtraDllNamespaces(RunOption runOption)
+        public static ICollection<string> GetExtraDllNamespaces(ExecOption execOption)
         {
-            if (!runOption.AddExtraUsingWhenGeneratingClass)
+            if (!execOption.AddExtraUsingWhenGeneratingClass)
             {
                 return new HashSet<string>();
             }
 
             List<Assembly> extraAssemblies = new List<Assembly>();
-            GetExtraDllsAndAssemblies(runOption, null, extraAssemblies);
+            GetExtraDllsAndAssemblies(execOption, null, extraAssemblies);
             HashSet<string> result = new HashSet<string>();
             foreach (Assembly assembly in extraAssemblies)
             {
@@ -46,12 +46,12 @@ namespace DynamicScriptRunner
             return result;
         }
 
-        internal static void GetExtraDllsAndAssemblies(RunOption runOption, List<string> dlls, List<Assembly> extraAssemblies)
+        internal static void GetExtraDllsAndAssemblies(ExecOption execOption, List<string> dlls, List<Assembly> extraAssemblies)
         {
             // Dll文件夹中的dll
-            if (runOption.ExtraDllFolderList != null)
+            if (execOption.ExtraDllFolderList != null)
             {
-                foreach (string extraDllFolder in runOption.ExtraDllFolderList)
+                foreach (string extraDllFolder in execOption.ExtraDllFolderList)
                 {
                     FileSystemInfo[] dllInfos = GetDllInfos(extraDllFolder);
                     if (dllInfos != null && dllInfos.Count() != 0)
@@ -75,9 +75,9 @@ namespace DynamicScriptRunner
             }
 
             // 单独的dll
-            if (runOption.ExtraDllFileList != null)
+            if (execOption.ExtraDllFileList != null)
             {
-                foreach (string extraDllFile in runOption.ExtraDllFileList)
+                foreach (string extraDllFile in execOption.ExtraDllFileList)
                 {
                     if (dlls != null)
                     {

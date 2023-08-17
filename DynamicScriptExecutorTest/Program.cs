@@ -1,11 +1,11 @@
-﻿using DynamicScriptRunner;
+﻿using DynamicScriptExecutor;
 
 /**
  * HelloWorld test
  */
 string codeHelloWorld = @"
 using System;
-class Run
+class Exec
 {
     public void Main()
     {
@@ -13,7 +13,7 @@ class Run
     }
 }
 ";
-ScriptRunner.Run(codeHelloWorld);
+ScriptExecutor.Exec(codeHelloWorld);
 
 /**
  * Param test
@@ -21,7 +21,7 @@ ScriptRunner.Run(codeHelloWorld);
 string codeDraw = @"
 using System;
 using System.Text;
-class Run
+class Exec
 {
     public string Main(int mid)
     {
@@ -49,16 +49,16 @@ class Run
 }
 ";
 object[] paramList = new object[1] { 30 };
-string codeDrawRes = (string)ScriptRunner.Run(codeDraw, new RunOption(paramList));
+string codeDrawRes = (string)ScriptExecutor.Exec(codeDraw, new ExecOption(paramList));
 Console.WriteLine(codeDrawRes);
 
 
 /**
  * InstanceObject test
  */
-RunOption runOptionHelloWorld = new RunOption();
-runOptionHelloWorld.InstanceObject = new InstanceObject(codeHelloWorld);
-ScriptRunner.Run(runOptionHelloWorld);
+ExecOption execOptionHelloWorld = new ExecOption();
+execOptionHelloWorld.InstanceObject = new InstanceObject(codeHelloWorld);
+ScriptExecutor.Exec(execOptionHelloWorld);
 
 
 /**
@@ -67,7 +67,7 @@ ScriptRunner.Run(runOptionHelloWorld);
 string codeCostTime = @"
 using System;
 using System.Threading;
-class Run
+class Exec
 {
     public int Main()
     {
@@ -78,8 +78,8 @@ class Run
     }
 }
 ";
-Task<object> task = ScriptRunner.RunAsync(codeCostTime);
-Console.WriteLine("output after RunAsync");
+Task<object> task = ScriptExecutor.ExecAsync(codeCostTime);
+Console.WriteLine("output after ExecAsync");
 Thread.Sleep(1500);
 Console.WriteLine("output when sleeping");
 int result = (int)task.GetAwaiter().GetResult();
@@ -90,7 +90,7 @@ Console.WriteLine("output after GetResult, result is: " + result);
  */
 string codeMain = @"
 using System;
-class Run
+class Exec
 {
     public void Main()
     {
@@ -109,35 +109,35 @@ public static class ExtraClass
     }
 }
 ";
-ScriptRunner.Run(new string[] { codeMain, codeExtra });
+ScriptExecutor.Exec(new string[] { codeMain, codeExtra });
 
 /**
  * Dependency + InstanceObject test
  */
-RunOption runOptionMainExtra = new RunOption();
-runOptionMainExtra.InstanceObject = new InstanceObject(new List<string> { codeMain, codeExtra });
-ScriptRunner.Run(runOptionMainExtra);
+ExecOption execOptionMainExtra = new ExecOption();
+execOptionMainExtra.InstanceObject = new InstanceObject(new List<string> { codeMain, codeExtra });
+ScriptExecutor.Exec(execOptionMainExtra);
 
 /**
  * VB.NET HelloWorld test
  */
 string codeHelloWorldVB = @"
 Imports System
-Public Class Run
+Public Class Exec
     Public Sub Main()
         Console.WriteLine(""Hello World VB.NET"")
     End Sub
 End Class
 ";
-RunOption runOptionVB = new RunOption() { ScriptLanguage = ScriptLanguage.VisualBasic };
-ScriptRunner.Run(codeHelloWorldVB, runOptionVB);
+ExecOption execOptionVB = new ExecOption() { ScriptLanguage = ScriptLanguage.VisualBasic };
+ScriptExecutor.Exec(codeHelloWorldVB, execOptionVB);
 
 /**
  * Private test
  */
 string codeHelloWorldPrivate = @"
 using System;
-class Run
+class Exec
 {
     private void Main()
     {
@@ -145,16 +145,16 @@ class Run
     }
 }
 ";
-RunOption runOptionHelloWorldPrivate = new RunOption();
-runOptionHelloWorldPrivate.NonPublic = true;
-ScriptRunner.Run(codeHelloWorldPrivate, runOptionHelloWorldPrivate);
+ExecOption execOptionHelloWorldPrivate = new ExecOption();
+execOptionHelloWorldPrivate.NonPublic = true;
+ScriptExecutor.Exec(codeHelloWorldPrivate, execOptionHelloWorldPrivate);
 
 /**
  * Static test
  */
 string codeStatic = @"
 using System;
-public static class Run
+public static class Exec
 {
     public static int count = 1;
     public static void Main()
@@ -163,17 +163,17 @@ public static class Run
     }
 }
 ";
-RunOption runOptionStatic = new RunOption() { IsStatic = true };
-runOptionStatic.InstanceObject = new InstanceObject(codeStatic, runOptionStatic);
-ScriptRunner.Run(runOptionStatic);
-ScriptRunner.Run(runOptionStatic);
+ExecOption execOptionStatic = new ExecOption() { IsStatic = true };
+execOptionStatic.InstanceObject = new InstanceObject(codeStatic, execOptionStatic);
+ScriptExecutor.Exec(execOptionStatic);
+ScriptExecutor.Exec(execOptionStatic);
 
 /**
  * Private Static test
  */
 string codePrivateStatic = @"
 using System;
-static class Run
+static class Exec
 {
     private static void Main()
     {
@@ -181,15 +181,15 @@ static class Run
     }
 }
 ";
-RunOption runOptionPrivateStatic = new RunOption() { IsStatic = true, NonPublic = true };
-ScriptRunner.Run(codePrivateStatic, runOptionPrivateStatic);
+ExecOption execOptionPrivateStatic = new ExecOption() { IsStatic = true, NonPublic = true };
+ScriptExecutor.Exec(codePrivateStatic, execOptionPrivateStatic);
 
 /**
  * Delegate HelloWorld
  */
 string codeDelegateHelloWorld = @"
 using System;
-public class Run
+public class Exec
 {
     public string DelegateHelloWorldFunc()
     {
@@ -197,7 +197,7 @@ public class Run
     }
 }
 ";
-var DelegateHelloWorldFunc = ScriptRunner.GenerateFunc<string>(codeDelegateHelloWorld, new RunOption() { MethodName = "DelegateHelloWorldFunc" });
+var DelegateHelloWorldFunc = ScriptExecutor.GenerateFunc<string>(codeDelegateHelloWorld, new ExecOption() { MethodName = "DelegateHelloWorldFunc" });
 Console.WriteLine(DelegateHelloWorldFunc(null));
 
 /**
@@ -206,7 +206,7 @@ Console.WriteLine(DelegateHelloWorldFunc(null));
 string codeDelegate = @"
 using System;
 using System.Text;
-public class Run
+public class Exec
 {
     public string DelegateTestFunc(int length, char c, int textIndex)
     {
@@ -216,7 +216,7 @@ public class Run
     }
 }
 ";
-var DelegateTestFunc = ScriptRunner.GenerateFunc<string>(codeDelegate, new RunOption() { MethodName = "DelegateTestFunc" });
+var DelegateTestFunc = ScriptExecutor.GenerateFunc<string>(codeDelegate, new ExecOption() { MethodName = "DelegateTestFunc" });
 Console.WriteLine(DelegateTestFunc(new object[] { 10, 't', 3 }));
 
 /**
@@ -225,7 +225,7 @@ Console.WriteLine(DelegateTestFunc(new object[] { 10, 't', 3 }));
 string codeDelegateNoGeneric = @"
 using System;
 using System.Text;
-public class Run
+public class Exec
 {
     public string DelegateNoGenericTestFunc()
     {
@@ -233,7 +233,7 @@ public class Run
     }
 }
 ";
-var DelegateNoGenericTestFunc = ScriptRunner.GenerateFunc(codeDelegateNoGeneric, new RunOption() { MethodName = "DelegateNoGenericTestFunc" });
+var DelegateNoGenericTestFunc = ScriptExecutor.GenerateFunc(codeDelegateNoGeneric, new ExecOption() { MethodName = "DelegateNoGenericTestFunc" });
 Console.WriteLine(DelegateNoGenericTestFunc(null));
 
 /**
@@ -242,7 +242,7 @@ Console.WriteLine(DelegateNoGenericTestFunc(null));
 string codeDelegateMultipleParams = @"
 using System;
 using System.Text;
-public class Run
+public class Exec
 {
     public string CodeDelegateMultipleParamsTestFunc(int length, char c, int textIndex)
     {
@@ -252,7 +252,7 @@ public class Run
     }
 }
 ";
-var CodeDelegateMultipleParamsTestFunc = ScriptRunner.GenerateFunc<int, char, int, string>(codeDelegateMultipleParams, new RunOption() { MethodName = "CodeDelegateMultipleParamsTestFunc" });
+var CodeDelegateMultipleParamsTestFunc = ScriptExecutor.GenerateFunc<int, char, int, string>(codeDelegateMultipleParams, new ExecOption() { MethodName = "CodeDelegateMultipleParamsTestFunc" });
 Console.WriteLine(CodeDelegateMultipleParamsTestFunc(10, 't', 6));
 
 /**
@@ -260,7 +260,7 @@ Console.WriteLine(CodeDelegateMultipleParamsTestFunc(10, 't', 6));
  */
 string codeDelegateStatic = @"
 using System;
-public static class Run
+public static class Exec
 {
     public static int count = 1;
     public static void DelegateStaticFunc()
@@ -269,10 +269,10 @@ public static class Run
     }
 }
 ";
-RunOption runOptionDelegateStatic = new RunOption() { IsStatic = true };
-runOptionStatic.InstanceObject = new InstanceObject(codeDelegateStatic, runOptionDelegateStatic);
-runOptionStatic.MethodName = "DelegateStaticFunc";
-var DelegateStaticFunc = ScriptRunner.GenerateFunc<object>(runOptionStatic);
+ExecOption execOptionDelegateStatic = new ExecOption() { IsStatic = true };
+execOptionStatic.InstanceObject = new InstanceObject(codeDelegateStatic, execOptionDelegateStatic);
+execOptionStatic.MethodName = "DelegateStaticFunc";
+var DelegateStaticFunc = ScriptExecutor.GenerateFunc<object>(execOptionStatic);
 DelegateStaticFunc(null);
 DelegateStaticFunc(null);
 
@@ -289,13 +289,13 @@ public int GenerateClassWithFunctionTestFunc()
     return groupedDiffRes.Count;
 }
 ";
-RunOption generateClassWithFunctionOption = new RunOption();
+ExecOption generateClassWithFunctionOption = new ExecOption();
 generateClassWithFunctionOption.ExtraDllFileList = new List<string> { "Diff.dll" };
 generateClassWithFunctionOption.MethodName = "GenerateClassWithFunctionTestFunc";
 try
 {
-    string codeGeneratedClassWithFunction = ScriptRunner.GenerateClassWithFunction(codeGenerateClassWithFunction, generateClassWithFunctionOption);
-    Console.WriteLine(ScriptRunner.Run(codeGeneratedClassWithFunction, generateClassWithFunctionOption));
+    string codeGeneratedClassWithFunction = ScriptExecutor.GenerateClassWithFunction(codeGenerateClassWithFunction, generateClassWithFunctionOption);
+    Console.WriteLine(ScriptExecutor.Exec(codeGeneratedClassWithFunction, generateClassWithFunctionOption));
 }
 catch
 {
