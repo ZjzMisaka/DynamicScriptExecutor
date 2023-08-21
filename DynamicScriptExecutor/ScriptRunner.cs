@@ -55,37 +55,24 @@ namespace DynamicScriptExecutor
         public static object Exec(ExecOption execOption)
         {
             InstanceObject instanceObject = execOption.InstanceObject;
+            BindingFlags bindingFlags = execOption.NonPublic ? BindingFlags.NonPublic : BindingFlags.Public;
 
-            if (!execOption.NonPublic)
+            bindingFlags |= execOption.IsStatic ? BindingFlags.Static : BindingFlags.Instance;
+
+            MethodInfo methodInfo = instanceObject.Type.GetMethod(execOption.MethodName, bindingFlags);
+
+            if (methodInfo == null)
             {
-                MethodInfo methodInfo = instanceObject.Type.GetMethod(execOption.MethodName);
-                if (methodInfo == null)
-                {
-                    MissingMethodException e = new MissingMethodException(instanceObject.Type.FullName, execOption.MethodName);
-                    throw e;
-                }
+                throw new MissingMethodException(instanceObject.Type.FullName, execOption.MethodName);
+            }
+
+            try
+            {
                 return methodInfo.Invoke(instanceObject.Instance, execOption.ParamList);
             }
-            else
+            catch (Exception e)
             {
-                BindingFlags bindingFlags;
-
-                if (execOption.IsStatic)
-                {
-                    bindingFlags = BindingFlags.NonPublic | BindingFlags.Static;
-                }
-                else
-                {
-                    bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
-                }
-
-                MethodInfo methodInfo = instanceObject.Type.GetMethod(execOption.MethodName, bindingFlags);
-                if (methodInfo == null)
-                {
-                    MissingMethodException e = new MissingMethodException(instanceObject.Type.FullName, execOption.MethodName);
-                    throw e;
-                }
-                return methodInfo.Invoke(instanceObject.Instance, bindingFlags, null, execOption.ParamList, null);
+                throw new InvalidOperationException("Method invocation failed.", e);
             }
         }
 

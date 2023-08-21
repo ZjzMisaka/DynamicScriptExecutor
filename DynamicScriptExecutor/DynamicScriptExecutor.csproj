@@ -9,6 +9,7 @@
     <PackageTags>csharp;script;exectime;roslyn;dotnet;script-executor;compilation;code-snippets;dynamic-execution;vbnet;vb-net;visual-basic-net;</PackageTags>
     <Authors>ZjzMisaka</Authors>
     <RepositoryUrl>https://github.com/ZjzMisaka/DynamicScriptExecutor</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/ZjzMisaka/DynamicScriptExecutor</PackageProjectUrl>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
