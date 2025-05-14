@@ -198,7 +198,8 @@ ExecOption(object[] paramList = null
     , bool nonPublic = false
     , bool isStatic = false
     , bool addDefaultUsingWhenGeneratingClass = true
-    , bool addExtraUsingWhenGeneratingClass = true)
+    , bool addExtraUsingWhenGeneratingClass = true
+    , bool includeDllInBaseFolder = true)
 ```
 ``` csharp
 object[] paramList;
@@ -212,6 +213,7 @@ bool nonPublic;
 bool isStatic;
 bool addDefaultUsingWhenGeneratingClass;
 bool addExtraUsingWhenGeneratingClass;
+bool includeDllInBaseFolder;
 ```
 **ScriptLanguage**
 - CSharp
