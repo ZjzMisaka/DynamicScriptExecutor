@@ -56,6 +56,7 @@ namespace DynamicScriptExecutor
 
             string assemblyLocation = typeof(object).Assembly.Location;
             dlls.Add("System.dll");
+            dlls.Add("System.Console.dll");
             dlls.Add("System.Linq.dll");
             dlls.Add("System.Net.dll");
             dlls.Add("System.Net.Http.dll");
