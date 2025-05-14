@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace DynamicScriptExecutor
@@ -91,6 +92,28 @@ namespace DynamicScriptExecutor
                     }
                 }
             }
+        }
+
+        internal static string ExtractPath(string text)
+        {
+            string pattern = "[\"'“”‘’]([^\"'“”‘’]+)[\"'“”‘’]";
+
+            var match = Regex.Match(text, pattern);
+            if (match.Success)
+            {
+                foreach (Group group in match.Groups)
+                {
+                    if (group.Value.Contains("'") || group.Value.Contains("\"") || group.Value.Contains("“"))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        return group.Value;
+                    }
+                }
+            }
+            return null;
         }
     }
 }

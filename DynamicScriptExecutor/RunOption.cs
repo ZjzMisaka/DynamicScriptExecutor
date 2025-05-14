@@ -18,6 +18,7 @@
         private bool isStatic;
         private bool addDefaultUsingWhenGeneratingClass;
         private bool addExtraUsingWhenGeneratingClass;
+        private bool includeDllInBaseFolder;
 
         public ExecOption(object[] paramList = null
             , ICollection<string> extraDllFolderList = null
@@ -29,7 +30,8 @@
             , bool nonPublic = false
             , bool isStatic = false
             , bool addDefaultUsingWhenGeneratingClass = true
-            , bool addExtraUsingWhenGeneratingClass = true)
+            , bool addExtraUsingWhenGeneratingClass = true
+            , bool includeDllInBaseFolder = true)
         {
             this.paramList = paramList;
             this.extraDllFolderList = extraDllFolderList;
@@ -42,6 +44,7 @@
             this.isStatic = isStatic;
             this.addDefaultUsingWhenGeneratingClass = addDefaultUsingWhenGeneratingClass;
             this.addExtraUsingWhenGeneratingClass = addExtraUsingWhenGeneratingClass;
+            this.includeDllInBaseFolder = includeDllInBaseFolder;
         }
 
         public object[] ParamList { get => paramList; set => paramList = value; }
@@ -55,10 +58,11 @@
         public bool IsStatic { get => isStatic; set => isStatic = value; }
         public bool AddDefaultUsingWhenGeneratingClass { get => addDefaultUsingWhenGeneratingClass; set => addDefaultUsingWhenGeneratingClass = value; }
         public bool AddExtraUsingWhenGeneratingClass { get => addExtraUsingWhenGeneratingClass; set => addExtraUsingWhenGeneratingClass = value; }
+        public bool IncludeDllInBaseFolder { get => includeDllInBaseFolder; set => includeDllInBaseFolder = value; }
 
         public ExecOption Copy()
         {
-            return new ExecOption(this.ParamList, this.ExtraDllFolderList, this.ExtraDllFileList, this.MethodName, this.ClassName, this.InstanceObject, this.ScriptLanguage, this.NonPublic, this.IsStatic, this.addDefaultUsingWhenGeneratingClass, this.addExtraUsingWhenGeneratingClass);
+            return new ExecOption(this.ParamList, this.ExtraDllFolderList, this.ExtraDllFileList, this.MethodName, this.ClassName, this.InstanceObject, this.ScriptLanguage, this.NonPublic, this.IsStatic, this.addDefaultUsingWhenGeneratingClass, this.addExtraUsingWhenGeneratingClass, this.includeDllInBaseFolder);
         }
     }
 }

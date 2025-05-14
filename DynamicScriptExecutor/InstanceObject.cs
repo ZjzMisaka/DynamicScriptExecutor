@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data;
+using System.Dynamic;
 
 namespace DynamicScriptExecutor
 {
@@ -41,24 +42,34 @@ namespace DynamicScriptExecutor
             DllHelper.GetExtraDllsAndAssemblies(execOption, dlls, null);
 
             // 根目录的Dll
-            FileSystemInfo[] dllInfosBase = DllHelper.GetDllInfos(Environment.CurrentDirectory);
-            foreach (FileSystemInfo dllInfo in dllInfosBase)
+            if (execOption.IncludeDllInBaseFolder)
             {
-                if (dllInfo.Extension == ".dll" && !dlls.Contains(dllInfo.Name))
+                FileSystemInfo[] dllInfosBase = DllHelper.GetDllInfos(Environment.CurrentDirectory);
+                foreach (FileSystemInfo dllInfo in dllInfosBase)
                 {
-                    dlls.Add(dllInfo.Name);
+                    if (dllInfo.Extension == ".dll" && !dlls.Contains(dllInfo.Name))
+                    {
+                        dlls.Add(dllInfo.Name);
+                    }
                 }
             }
 
             string assemblyLocation = typeof(object).Assembly.Location;
-            FileSystemInfo[] dllInfosAssembly = DllHelper.GetDllInfos(Path.GetDirectoryName(assemblyLocation));
-            foreach (FileSystemInfo dllInfo in dllInfosAssembly)
-            {
-                if (dllInfo.Extension == ".dll" && !dlls.Contains(dllInfo.Name) && !dllInfo.Name.StartsWith("api"))
-                {
-                    dlls.Add(dllInfo.Name);
-                }
-            }
+            dlls.Add("System.dll");
+            dlls.Add("System.Linq.dll");
+            dlls.Add("System.Net.dll");
+            dlls.Add("System.Net.Http.dll");
+            dlls.Add("System.Threading.dll");
+            dlls.Add("System.IO.dll");
+            dlls.Add("System.Drawing.dll");
+            dlls.Add("System.Xml.dll");
+            dlls.Add("System.Xml.Linq.dll");
+            dlls.Add("System.Security.dll");
+            dlls.Add("System.Security.Claims.dll");
+            dlls.Add("System.Data.dll");
+            dlls.Add("System.Runtime.dll");
+            dlls.Add("System.ComponentModel.dll");
+            dlls.Add("System.ComponentModel.DataAnnotations.dll");
 
             string errorStr = "";
             bool breakError = false;
@@ -161,8 +172,7 @@ namespace DynamicScriptExecutor
                     if (diagnostic.Id == "CS0009" || diagnostic.Id == "BC31519")
                     {
                         string dll = diagnostic.GetMessage();
-                        dll = dll.Substring(dll.IndexOf("'") + 1);
-                        dll = dll.Substring(0, dll.IndexOf("'"));
+                        dll = DllHelper.ExtractPath(dll);
                         errDllList.Add(Path.GetFileName(dll));
                     }
                     else

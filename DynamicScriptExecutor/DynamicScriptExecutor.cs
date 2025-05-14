@@ -424,6 +424,10 @@ namespace DynamicScriptExecutor
             {
                 foreach (string nameSpace in extraDllNamespaces)
                 {
+                    if (string.IsNullOrWhiteSpace(nameSpace))
+                    {
+                        continue;
+                    }
                     extraUsings = $"{extraUsings}using {nameSpace};\n";
                 }
             }
@@ -445,12 +449,10 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
-using System.Exectime.Serialization;
 using System.Security.Cryptography;
 using System.Xml;
 using System.Xml.Linq;
 using System.Reflection;
-using System.Exectime.InteropServices;
 using System.Net.Sockets;
 using System.Net.WebSockets;
 using System.Security.Claims;
