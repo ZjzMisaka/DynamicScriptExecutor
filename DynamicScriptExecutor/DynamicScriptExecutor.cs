@@ -2,9 +2,11 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.VisualBasic;
 using Microsoft.VisualBasic.FileIO;
+using System;
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace DynamicScriptExecutor
 {

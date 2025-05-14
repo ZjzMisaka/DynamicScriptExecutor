@@ -1,4 +1,6 @@
-﻿namespace DynamicScriptExecutor
+﻿using System.Collections.Generic;
+
+namespace DynamicScriptExecutor
 {
     public enum ScriptLanguage
     {
