@@ -69,6 +69,7 @@ namespace DynamicScriptExecutor
             dlls.Add("System.Security.dll");
             dlls.Add("System.Security.Claims.dll");
             dlls.Add("System.Data.dll");
+            dlls.Add("System.Collections.dll");
             dlls.Add("System.Runtime.dll");
             dlls.Add("System.ComponentModel.dll");
             dlls.Add("System.ComponentModel.DataAnnotations.dll");
